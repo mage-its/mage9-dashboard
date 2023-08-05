@@ -20,21 +20,21 @@ export const COMPETITION_LINK = [
 ]
 
 export const DaftarLombaScheme = z.object({
-    kategori: z.string(),
-    namaTim: z.string(),
-    namaKetua: z.string(),
-    waKetua: z.string(),
-    lineKetua: z.string(),
+    kategori: z.string().nonempty('Harap masukkan Kategori!'),
+    namaTim: z.string().nonempty('Harap masukkan Nama Tim!'),
+    namaKetua: z.string().nonempty('Harap masukkan Nama Ketua!'),
+    waKetua: z.string().nonempty('Harap masukkan no WA Ketua!'),
+    lineKetua: z.string().nonempty('Harap masukkan ID Line Ketua!'),
     namaAnggota1: z.string().optional(),
     namaAnggota2: z.string().optional(),
-    asalInstansi: z.string(),
+    asalInstansi: z.string().nonempty('Harap masukkan Asal Instansi!'),
     alamatInstansi: z.string(),
-    asalInfo: z.string(),
-    asalKota: z.string(),
-    identitasKetua: z.any(),
+    asalInfo: z.string().nonempty('Harap masukkan Asal Info!'),
+    asalKota: z.string().nonempty('Harap masukkan Asal Kota!'),
+    identitasKetua: z.any().refine((value) => value.length > 0, { message: 'Harap masukkan identitas ketua!' }),
     identitasAnggota1: z.any().optional(),
     identitasAnggota2: z.any().optional(),
-    buktiPembayaran: z.any(),
+    buktiPembayaran: z.any().refine((value) => value.length > 0, { message: 'Harap masukkan bukti pembayaran!' }),
 })
 
 export type DaftarLombaType = z.infer<typeof DaftarLombaScheme>

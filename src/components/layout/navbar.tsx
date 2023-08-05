@@ -22,18 +22,45 @@ export default function Navbar({ toggle, toggled }: NavbarProps) {
     const [isLoading, setIsLoading] = useState(true)
     const user_name = user?.displayName
     useEffect(() => {
-        const getCurrentGreeting = () => {
-            const currentHour = new Date().getHours()
-            if (currentHour >= 5 && currentHour < 12) {
-                return 'Selamat pagi! ' + user_name
-            } else if (currentHour >= 12 && currentHour < 18) {
-                return 'Selamat siang! ' + user_name
-            } else {
-                return 'Selamat malam! ' + user_name
+
+        // user_name undefined kalo blm nunggu
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const getCurrentGreeting = () => {
+                    const currentHour = new Date().getHours()
+                    if (currentHour >= 5 && currentHour < 12) {
+                        return 'Selamat pagi! ' + user_name
+                    } else if (currentHour >= 12 && currentHour < 18) {
+                        return 'Selamat siang! ' + user_name
+                    } else {
+                        return 'Selamat malam! ' + user_name
+                    }
+                }
+                setIsLoading(false)
+                setGreeting(getCurrentGreeting())
             }
-        }
-        setIsLoading(false)
-        setGreeting(getCurrentGreeting())
+            else {
+                setIsLoading(false)
+            }
+        });
+        return () => unsubscribe();
+        // user_name undefined kalo blm nunggu
+
+
+
+        // const getCurrentGreeting = () => {
+        //     const currentHour = new Date().getHours()
+        //     if (currentHour >= 5 && currentHour < 12) {
+        //         return 'Selamat pagi! ' + user_name
+        //     } else if (currentHour >= 12 && currentHour < 18) {
+        //         return 'Selamat siang! ' + user_name
+        //     } else {
+        //         return 'Selamat malam! ' + user_name
+        //     }
+        // }
+        // setIsLoading(false)
+        // setGreeting(getCurrentGreeting())
+
     }, [isLoading])
 
     return (
