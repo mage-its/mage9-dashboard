@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+    }
+}
+
+body {
+    color: rgb(var(--foreground-rgb));
+    background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+.h0 {
+    @apply text-3xl font-bold md:text-5xl;
+}
+
+h1,
+.h1 {
+    @apply text-2xl font-bold md:text-4xl;
+}
+
+h2,
+.h2 {
+    @apply text-xl font-bold md:text-3xl;
+}
+
+h3,
+.h3 {
+    @apply text-lg font-bold md:text-2xl;
+}
+
+h4,
+.h4 {
+    @apply text-base font-bold md:text-lg;
+}
+
+.animate-underline {
+    position: relative;
+    cursor: pointer;
+}
+
+.animate-underline:before {
+    content: '';
+    position: absolute;
+    background: #fff;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    z-index: -1;
+    transition: width 0.2s ease-in;
+}
+
+.animate-underline:hover:before {
+    width: 100%;
+}

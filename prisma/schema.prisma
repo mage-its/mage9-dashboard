@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model announcements {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model appdevs {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  /// Field referred in an index, but found no data to define the type.
+  namaTim   Json?  @unique(map: "namaTim_1")
+  /// Field referred in an index, but found no data to define the type.
+  noPeserta Json?
+  /// Field referred in an index, but found no data to define the type.
+  user      Json?  @unique(map: "user_1")
+
+  @@index([noPeserta], map: "noPeserta_1")
+}
+
+model gamedevs {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  /// Field referred in an index, but found no data to define the type.
+  namaTim   Json?  @unique(map: "namaTim_1")
+  /// Field referred in an index, but found no data to define the type.
+  noPeserta Json?
+  /// Field referred in an index, but found no data to define the type.
+  user      Json?  @unique(map: "user_1")
+
+  @@index([noPeserta], map: "noPeserta_1")
+}
+
+model iotdevs {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  /// Field referred in an index, but found no data to define the type.
+  namaTim   Json?  @unique(map: "namaTim_1")
+  /// Field referred in an index, but found no data to define the type.
+  noPeserta Json?
+  /// Field referred in an index, but found no data to define the type.
+  user      Json?  @unique(map: "user_1")
+
+  @@index([noPeserta], map: "noPeserta_1")
+}
+
+model kodebayars {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  /// Field referred in an index, but found no data to define the type.
+  name Json?  @unique(map: "name_1")
+}
+
+model projects {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  v    Int    @map("__v")
+  name String
+}
+
+model robotics {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  /// Field referred in an index, but found no data to define the type.
+  namaTim   Json?  @unique(map: "namaTim_1")
+  /// Field referred in an index, but found no data to define the type.
+  noPeserta Json?
+  /// Field referred in an index, but found no data to define the type.
+  user      Json?  @unique(map: "user_1")
+
+  @@index([noPeserta], map: "noPeserta_1")
+}
+
+model tasks {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+model tokens {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  v           Int      @map("__v")
+  blacklisted Boolean
+  createdAt   DateTime @db.Date
+  expires     DateTime @db.Date
+  token       String
+  type        String
+  updatedAt   DateTime @db.Date
+  user        String   @db.ObjectId
+
+  @@index([token], map: "token_1")
+}
+
+model users {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  v               Int      @map("__v")
+  createdAt       DateTime @db.Date
+  email           String   @unique(map: "email_1")
+  isEmailVerified Boolean
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  method          Json?
+  name            String
+  password        String
+  registeredComp  String
+  role            String
+  updatedAt       DateTime @db.Date
+}
+
+model webinars {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  /// Field referred in an index, but found no data to define the type.
+  email Json?  @unique(map: "email_1")
+  /// Field referred in an index, but found no data to define the type.
+  nama  Json?  @unique(map: "nama_1")
+}
+
+model workshops {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  /// Field referred in an index, but found no data to define the type.
+  email Json?  @unique(map: "email_1")
+  /// Field referred in an index, but found no data to define the type.
+  nama  Json?  @unique(map: "nama_1")
+}

@@ -1,0 +1,69 @@
+{
+    "name": "bof",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "check-types": "tsc --pretty --noEmit",
+        "check-format": "prettier --check .",
+        "check-lint": "eslint . --ext ts --ext tsx --ext js",
+        "format": "prettier --write .",
+        "test-all": "yarn check-format && yarn check-lint && yarn check-types && yarn build",
+        "prepare": "husky install"
+    },
+    "dependencies": {
+        "@hookform/resolvers": "^3.1.1",
+        "@prisma/client": "^4.16.2",
+        "@types/node": "20.3.3",
+        "@types/react": "18.2.14",
+        "@types/react-dom": "18.2.6",
+        "autoprefixer": "10.4.14",
+        "clsx": "^1.2.1",
+        "encoding": "^0.1.13",
+        "firebase": "^10.1.0",
+        "framer-motion": "^10.15.0",
+        "hamburger-react": "^2.5.0",
+        "next": "13.4.8",
+        "postcss": "8.4.24",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "react-firebase-hooks": "^5.1.1",
+        "react-hook-form": "^7.45.2",
+        "react-hot-toast": "^2.4.1",
+        "react-icons": "^4.10.1",
+        "tailwind-merge": "^1.13.2",
+        "tailwindcss": "3.3.2",
+        "typescript": "5.1.6",
+        "zod": "^3.21.4"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^17.6.6",
+        "@commitlint/config-conventional": "^17.6.6",
+        "@tailwindcss/forms": "^0.5.4",
+        "@typescript-eslint/eslint-plugin": "^5.61.0",
+        "@typescript-eslint/parser": "^5.61.0",
+        "cz-conventional-changelog": "^3.3.0",
+        "eslint": "^8.44.0",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-react": "^7.32.2",
+        "eslint-plugin-unused-imports": "^2.0.0",
+        "husky": "^8.0.0",
+        "lint-staged": "^13.2.3",
+        "prettier": "^2.8.8",
+        "prettier-plugin-tailwindcss": "^0.3.0",
+        "prisma": "^4.16.2",
+        "tailwind-scrollbar": "^3.0.4"
+    },
+    "lint-staged": {
+        "**/*.{js,jsx,ts,tsx,html,css,json}": [
+            "yarn prettier --write"
+        ]
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    }
+}
