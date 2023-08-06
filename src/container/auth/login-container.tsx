@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import toast from 'react-hot-toast'
 
 import { z } from 'zod'
@@ -44,8 +45,21 @@ export default function LoginContainer() {
         }
     }, [user])
 
+    const signIn = async (data: LoginProps) => {
+        try {
+            console.log(data)
+            const userCred = await signInWithEmailAndPassword(auth, data.email, data.password).then((value) => value)
+            if (userCred) {
+                console.log('Success')
+            }
+        } catch (error: any) {
+            toast.error(error.message)
+        }
+    };
+
     const { register, handleSubmit, reset } = methods
     const onSubmit = (data: LoginProps) => {
+        signIn(data)
         console.log(data)
     }
     return (

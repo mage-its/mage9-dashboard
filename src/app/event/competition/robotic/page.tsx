@@ -1,12 +1,13 @@
 import Main from '@/components/layout/main'
-import PendaftaranApp from '@/container/pendaftaran/daftar-appdev-container'
+import PendaftaranDevCom from '@/container/pendaftaran/daftar-devcom-container'
 import React from 'react'
 
 export default function Page() {
     return (
         <Main>
             <section className="h-full w-full">
-                <PendaftaranApp />
+                {/* <PendaftaranApp cabangLomba='robotic' /> */}
+                <h1 className='h-full w-full flex justify-center items-center'>Coming Soon!</h1>
             </section>
         </Main>
     )

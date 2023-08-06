@@ -5,9 +5,10 @@ import LogoMage from '~/assets/images/component/logo-mage.png'
 import { auth } from '@/utils/firebase'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import toast from 'react-hot-toast'
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
+import { toast } from 'react-hot-toast'
 
 import { z } from 'zod'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -18,9 +19,9 @@ import GoogleButton from '@/components/button/google-login'
 
 const RegisterFormSchema = z
     .object({
-        name: z.string(),
+        name: z.string().nonempty('Mohon isi nama anda!'),
         email: z.string().email({ message: 'Perhatikan format email!' }),
-        password: z.string(),
+        password: z.string().nonempty('Mohon isi kata sandi!').min(6, 'Kata sandi minimal 6 karakter!'),
         confirm: z.string(),
     })
     .refine((data) => data.password === data.confirm, {
@@ -36,14 +37,6 @@ const RegisterInitialValue: RegisterProps = {
     password: '',
     confirm: '',
 }
-
-// const handleRegister = async (data:RegisterProps) =>{
-// try {
-
-// } catch (error) {
-
-// }
-// }
 
 export default function RegisterContainer() {
     const methods = useForm<RegisterProps>({
@@ -63,8 +56,24 @@ export default function RegisterContainer() {
 
     const { register, handleSubmit, reset } = methods
 
+    const registerNewAccount = async (data: RegisterProps) => {
+        try {
+            console.log(data)
+            const userCred = await createUserWithEmailAndPassword(auth, data.email, data.password).then((value) => value)
+            sendEmailVerification(userCred.user)
+            if (userCred) {
+                toast.success('Verifikasi email berhasil dikirim!')
+            }
+            else {
+                throw 'Error while Sign In'
+            }
+        } catch (error: any) {
+            toast.error(error.message)
+        }
+    };
+
     const onSubmit = (data: RegisterProps) => {
-        console.log(data)
+        registerNewAccount(data)
     }
 
     return (
@@ -84,7 +93,7 @@ export default function RegisterContainer() {
                         className="col-span-2 mx-auto mt-10 flex h-10 w-full items-center justify-center gap-5 rounded bg-blue-600 text-white hover:bg-blue-400 hover:text-white hover:shadow-lg"
                         type="submit"
                     >
-                        Log In
+                        Sign In
                     </button>
                 </form>
                 <div className="text-sm font-medium text-gray-300">

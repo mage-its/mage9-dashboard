@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Squash as Hamburger } from 'hamburger-react'
 import merge from '@/utils/merge'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '@/utils/firebase'
+import LogoMage from '~/assets/images/component/logo-mage.png'
 
 interface NavbarProps {
     toggle: React.Dispatch<React.SetStateAction<boolean>> | undefined
@@ -20,20 +22,45 @@ export default function Navbar({ toggle, toggled }: NavbarProps) {
 
     const [greeting, setGreeting] = useState<string>('')
     const [isLoading, setIsLoading] = useState(true)
-    const user_name = user?.displayName
+    const user_name = user?.displayName ?? ''
     useEffect(() => {
-        const getCurrentGreeting = () => {
-            const currentHour = new Date().getHours()
-            if (currentHour >= 5 && currentHour < 12) {
-                return 'Selamat pagi! ' + user_name
-            } else if (currentHour >= 12 && currentHour < 18) {
-                return 'Selamat siang! ' + user_name
-            } else {
-                return 'Selamat malam! ' + user_name
+
+        // user_name undefined kalo blm nunggu
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const getCurrentGreeting = () => {
+                    const currentHour = new Date().getHours()
+                    if (currentHour >= 5 && currentHour < 12) {
+                        return 'Selamat pagi! ' + user_name
+                    } else if (currentHour >= 12 && currentHour < 18) {
+                        return 'Selamat siang! ' + user_name
+                    } else {
+                        return 'Selamat malam! ' + user_name
+                    }
+                }
+                setIsLoading(false)
+                setGreeting(getCurrentGreeting())
             }
-        }
-        setIsLoading(false)
-        setGreeting(getCurrentGreeting())
+            else {
+                setIsLoading(false)
+            }
+        });
+        return () => unsubscribe();
+        // user_name undefined kalo blm nunggu
+
+        // const getCurrentGreeting = () => {
+        //     const currentHour = new Date().getHours()
+        //     if (currentHour >= 5 && currentHour < 12) {
+        //         return 'Selamat pagi! ' + user_name
+        //     } else if (currentHour >= 12 && currentHour < 18) {
+        //         return 'Selamat siang! ' + user_name
+        //     } else {
+        //         return 'Selamat malam! ' + user_name
+        //     }
+        // }
+        // setIsLoading(false)
+        // setGreeting(getCurrentGreeting())
+
     }, [isLoading])
 
     return (
@@ -47,6 +74,16 @@ export default function Navbar({ toggle, toggled }: NavbarProps) {
                 <div className={merge(toggled && 'max-lg:')}>
                     <Hamburger toggle={toggle} toggled={toggled} size={24} />
                 </div>
+                <Link href='http://localhost:3006'>
+                    <Image
+                        alt='Logo Mage9'
+                        width={35}
+                        height={35}
+                        priority={true}
+                        src={LogoMage}
+                        className='h-auto w-full'
+                    />
+                </Link>
                 {
                     <div className="inline-flex gap-2.5 max-lg:hidden">
                         {pathname !== '/' && (
