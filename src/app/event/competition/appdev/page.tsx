@@ -10,10 +10,13 @@ const idCabang = 'appdev'
 export default function Page() {
     const [isLoading, setIsLoading] = useState(true);
     const [isRegistered, setIsRegistered] = useState(false);
+    const [isVerified, setIsVerified] = useState(false);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
+                setIsVerified(user.emailVerified);
+
                 const docRef = doc(db, idCabang, user.uid);
 
                 try {
@@ -39,13 +42,21 @@ export default function Page() {
                     <h1 className="h-full w-full flex justify-center items-center">
                         Loading...
                     </h1>
-                ) : isRegistered ? (
-                    <h1 className="h-full w-full flex justify-center items-center">
-                        Anda telah terdaftar pada AppDev!
-                    </h1>
-                ) : (
-                    <PendaftaranDevCom cabang={idCabang} />
-                )}
+                ) : isVerified ?
+                    (
+                        isRegistered ? (
+                            <h1 className="h-full w-full flex justify-center items-center text-center">
+                                Anda telah terdaftar pada AppDev! Harap tunggu proses verifikasi!
+                            </h1>
+                        ) : (
+                            <PendaftaranDevCom idCabang={idCabang} />
+                        )
+                    ) : (
+                        <h1 className="h-full w-full flex justify-center items-center">
+                            Harap verifikasi email anda terlebih dahulu!
+                        </h1>
+                    )
+                }
             </section>
         </Main>
     )

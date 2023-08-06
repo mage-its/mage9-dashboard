@@ -54,7 +54,7 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                         className="h-full w-full rounded-full object-cover"
                     />
                 </div>
-                <h1 className="text-xl max-lg:text-lg">{user?.displayName}</h1>
+                <h1 className="text-xl max-lg:text-lg">{user?.displayName ?? user?.email}</h1>
                 <p className="text-sm max-lg:text-xs">{user?.email}</p>
             </section>
             <section className="h-full w-full border-t-4 border-custom-blue pt-5 text-lg">

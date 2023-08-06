@@ -2,14 +2,14 @@
 'use client'
 import Input from '@/components/form/input'
 import { DaftarLombaScheme, DaftarLombaType, InitialFormValue } from '@/constants'
-import React from 'react'
+import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { db, auth, storage, ref, uploadBytes, getDownloadURL } from '@/utils/firebase'
 import { doc, setDoc, } from 'firebase/firestore'
 
 interface PendaftaranDevComProps {
-    cabang: string;
+    idCabang: string;
 }
 
 export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
@@ -19,13 +19,15 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
         mode: 'onTouched',
         resolver: zodResolver(DaftarLombaScheme),
     })
+    const [loading, setLoading] = useState(false);
     const { register, handleSubmit, reset } = methods
 
     const DaftarLomba = async (data: DaftarLombaType) => {
+        setLoading(true);
         try {
             // >>>>>>>>>>>>>>>> Store image stuff
             // Identitas Ketua
-            const identitasKetuaFolderRef = ref(storage, `${props.cabang}/${auth!.currentUser!.uid}/identitasKetua/${data.identitasKetua[0].name}`)
+            const identitasKetuaFolderRef = ref(storage, `${props.idCabang}/${auth!.currentUser!.uid}/identitasKetua/${data.identitasKetua[0].name}`)
             await uploadBytes(identitasKetuaFolderRef, data.identitasKetua[0]).then((snapshot) => {
                 return getDownloadURL(snapshot.ref);
             }).then((url) => {
@@ -33,7 +35,7 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
             })
 
             // Bukti Pembayaran
-            const buktiPembayaranFolderRef = ref(storage, `${props.cabang}/${auth!.currentUser!.uid}/buktiPembayaran/${data.buktiPembayaran[0].name}`)
+            const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth!.currentUser!.uid}/buktiPembayaran/${data.buktiPembayaran[0].name}`)
             await uploadBytes(buktiPembayaranFolderRef, data.buktiPembayaran[0]).then((snapshot) => {
                 return getDownloadURL(snapshot.ref);
             }).then((url) => {
@@ -42,7 +44,7 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
 
             // Anggota 1
             if (data.identitasAnggota1[0]) {
-                const buktiPembayaranFolderRef = ref(storage, `${props.cabang}/${auth!.currentUser!.uid}/buktiPembayaran/${data.identitasAnggota1[0].name}`)
+                const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth!.currentUser!.uid}/buktiPembayaran/${data.identitasAnggota1[0].name}`)
                 await uploadBytes(buktiPembayaranFolderRef, data.identitasAnggota1[0]).then((snapshot) => {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
@@ -52,7 +54,7 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
 
             // Anggota 2
             if (data.identitasAnggota2[0]) {
-                const buktiPembayaranFolderRef = ref(storage, `${props.cabang}/${auth!.currentUser!.uid}/buktiPembayaran/${data.identitasAnggota2[0].name}`)
+                const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth!.currentUser!.uid}/buktiPembayaran/${data.identitasAnggota2[0].name}`)
                 await uploadBytes(buktiPembayaranFolderRef, data.identitasAnggota2[0]).then((snapshot) => {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
@@ -61,12 +63,11 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
             }
 
             // >>>>>>>>>>>>>>>> Store string stuff
-            const userDocRef = doc(db, props.cabang, auth!.currentUser!.uid)
+            const userDocRef = doc(db, props.idCabang, auth!.currentUser!.uid)
             await setDoc(userDocRef, data);
 
             console.log('Berhasil daftar!')
             window.location.reload();
-            // window.location.replace(COMPETITION_LINK.find((item) => item.label === 'App Dev')!.href);
         } catch (error) {
             throw error
         }
@@ -74,7 +75,7 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
 
     const onSubmit = (data: DaftarLombaType) => {
         DaftarLomba(data)
-        console.log('Form Submission Data', data)
+        // console.log('Form Submission Data', data)
     }
     return (
         <FormProvider {...methods}>
@@ -91,8 +92,14 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
                             className="rounded border-gray-500 bg-gray-600"
                             {...register('kategori', { required: true })}
                         >
-                            <option value="mahasiswa">Mahasiswa</option>
-                            <option value="siswa">Siswa</option>
+                            {props.idCabang == 'iot' ? (
+                                <option value="umum">Umum</option>
+                            ) : (
+                                <>
+                                    <option value="mahasiswa">Mahasiswa</option>
+                                    <option value="siswa">Siswa</option>
+                                </>
+                            )}
                         </select>
                     </div>
                     <div className="mx-auto flex w-full flex-col">
@@ -125,21 +132,21 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
                         id="identitasKetua"
                         name="identitasKetua"
                         type="file"
-                        label="* Foto Kartu Identitas Ketua"
+                        label="* Berkas Ketua"
                         className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
                     />
                     <Input
                         id="identitasAnggota1"
                         name="identitasAnggota1"
                         type="file"
-                        label="Foto Kartu Identitas Anggota 1"
+                        label="Berkas Anggota 1"
                         className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
                     />
                     <Input
                         id="identitasAnggota2"
                         name="identitasAnggota2"
                         type="file"
-                        label="Foto Kartu Identitas Anggota 2"
+                        label="Berkas Anggota 2"
                         className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
                     />
                     <Input
@@ -149,12 +156,25 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
                         label="* Bukti Pembayaran"
                         className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
                     />
-                    <button
-                        className=" col-span-2 mx-auto mt-10 flex h-10 w-full items-center justify-center gap-5 rounded bg-custom-purple text-white hover:bg-custom-purple/80 hover:text-white hover:shadow-lg"
-                        type="submit"
-                    >
-                        Daftar
-                    </button>
+                    {loading ? (
+                        <button
+                            className=" col-span-2 mx-auto mt-10 flex h-10 w-full items-center justify-center gap-5 rounded bg-custom-purple/80 text-white shadow-lg"
+                            type="submit"
+                            disabled
+                        >
+                            <svg className="animate-spin rounded-full h-5 w-5 border-t-4 border-blue-500" viewBox="0 0 24 24">
+                            </svg>
+                            Uploading...
+                        </button>
+
+                    ) : (
+                        <button
+                            className=" col-span-2 mx-auto mt-10 flex h-10 w-full items-center justify-center gap-5 rounded bg-custom-purple text-white hover:bg-custom-purple/80 hover:text-white hover:shadow-lg"
+                            type="submit"
+                        >
+                            Daftar
+                        </button>
+                    )}
                 </section>
             </form>
         </FormProvider>
