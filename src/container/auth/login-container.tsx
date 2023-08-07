@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Input from '@/components/form/input'
 import GoogleButton from '@/components/button/google-login'
 import { Toaster } from 'react-hot-toast'
+import { FirebaseError } from 'firebase/app'
 
 const LoginFormSchema = z.object({
     email: z.string().email({ message: 'Perhatikan format email!' }),
@@ -49,16 +50,16 @@ export default function LoginContainer() {
 
     const signIn = async (data: LoginProps) => {
         try {
-            var userCred = await signInWithEmailAndPassword(auth, data.email, data.password).then((value) => value)
+            const userCred = await signInWithEmailAndPassword(auth, data.email, data.password).then((value) => value)
             if (!userCred.user.emailVerified) {
                 toast.error('Harap verifikasi email terlebih dahulu!')
             }
-        } catch (error: any) {
-            toast.error(error.message)
+        } catch (error) {
+            toast.error((error as FirebaseError).message)
         }
     };
 
-    const { register, handleSubmit, reset } = methods
+    const { handleSubmit } = methods
     const onSubmit = (data: LoginProps) => {
         signIn(data)
     }

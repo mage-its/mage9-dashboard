@@ -5,7 +5,7 @@ import LogoMage from '~/assets/images/component/logo-mage.png'
 import { auth } from '@/utils/firebase'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { toast } from 'react-hot-toast'
@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Input from '@/components/form/input'
 import { Toaster } from 'react-hot-toast'
 import GoogleButton from '@/components/button/google-login'
+import { FirebaseError } from 'firebase/app'
 
 const RegisterFormSchema = z
     .object({
@@ -60,7 +61,7 @@ export default function RegisterContainer() {
         }
     }, [user])
 
-    const { register, handleSubmit, reset } = methods
+    const { handleSubmit } = methods
 
     const registerNewAccount = async (data: RegisterProps) => {
         try {
@@ -69,8 +70,8 @@ export default function RegisterContainer() {
             if (!userCred) {
                 throw 'Error while Sign In'
             }
-        } catch (error: any) {
-            toast.error(error.message)
+        } catch (error) {
+            toast.error((error as FirebaseError).message)
         }
     };
 

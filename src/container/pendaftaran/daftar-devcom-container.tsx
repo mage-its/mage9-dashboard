@@ -5,7 +5,7 @@ import { DaftarLombaScheme, DaftarLombaType, InitialFormValue } from '@/constant
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { db, auth, storage, ref, uploadBytes, getDownloadURL } from '@/utils/firebase'
+import { auth, db, getDownloadURL, ref, storage, uploadBytes } from '@/utils/firebase'
 import { doc, setDoc, } from 'firebase/firestore'
 import { toast } from 'react-hot-toast'
 
@@ -28,7 +28,7 @@ export default function FormDevCom(props: FormDevComProps) {
         try {
             // >>>>>>>>>>>>>>>> Store image stuff
             // Identitas Ketua
-            const identitasKetuaFolderRef = ref(storage, `${props.idCabang}/${auth!.currentUser!.uid}/identitasKetua/${data.identitasKetua[0].name}`)
+            const identitasKetuaFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasKetua/${data.identitasKetua[0].name}`)
             await uploadBytes(identitasKetuaFolderRef, data.identitasKetua[0]).then((snapshot) => {
                 return getDownloadURL(snapshot.ref);
             }).then((url) => {
@@ -36,7 +36,7 @@ export default function FormDevCom(props: FormDevComProps) {
             })
 
             // Bukti Pembayaran
-            const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth!.currentUser!.uid}/buktiPembayaran/${data.buktiPembayaran[0].name}`)
+            const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/buktiPembayaran/${data.buktiPembayaran[0].name}`)
             await uploadBytes(buktiPembayaranFolderRef, data.buktiPembayaran[0]).then((snapshot) => {
                 return getDownloadURL(snapshot.ref);
             }).then((url) => {
@@ -45,7 +45,7 @@ export default function FormDevCom(props: FormDevComProps) {
 
             // Anggota 1
             if (data.identitasAnggota1[0]) {
-                const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth!.currentUser!.uid}/buktiPembayaran/${data.identitasAnggota1[0].name}`)
+                const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/buktiPembayaran/${data.identitasAnggota1[0].name}`)
                 await uploadBytes(buktiPembayaranFolderRef, data.identitasAnggota1[0]).then((snapshot) => {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
@@ -55,7 +55,7 @@ export default function FormDevCom(props: FormDevComProps) {
 
             // Anggota 2
             if (data.identitasAnggota2[0]) {
-                const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth!.currentUser!.uid}/buktiPembayaran/${data.identitasAnggota2[0].name}`)
+                const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/buktiPembayaran/${data.identitasAnggota2[0].name}`)
                 await uploadBytes(buktiPembayaranFolderRef, data.identitasAnggota2[0]).then((snapshot) => {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
@@ -64,7 +64,7 @@ export default function FormDevCom(props: FormDevComProps) {
             }
 
             // >>>>>>>>>>>>>>>> Store string stuff
-            const userDocRef = doc(db, props.idCabang, auth!.currentUser!.uid)
+            const userDocRef = doc(db, props.idCabang, auth.currentUser?.uid ?? '')
             await setDoc(userDocRef, data);
 
             window.location.reload();

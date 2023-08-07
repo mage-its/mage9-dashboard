@@ -1,8 +1,7 @@
 'use client'
-import Main from '@/components/layout/main'
 import FormDevCom from '@/container/pendaftaran/daftar-devcom-container'
-import React, { useState, useEffect } from 'react'
-import { db, auth } from '@/utils/firebase'
+import React, { useEffect, useState } from 'react'
+import { auth, db } from '@/utils/firebase'
 import { doc, getDoc } from 'firebase/firestore'
 import Loading from '@/app/loading'
 
@@ -19,13 +18,9 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
             if (user) {
                 const docRef = doc(db, props.idCabang, user.uid);
 
-                try {
-                    const docSnapshot = await getDoc(docRef);
-                    setIsRegistered(docSnapshot.exists());
-                    setIsLoading(false);
-                } catch (error) {
-                    throw error
-                }
+                const docSnapshot = await getDoc(docRef);
+                setIsRegistered(docSnapshot.exists());
+                setIsLoading(false);
             } else {
                 setIsLoading(false);
             }

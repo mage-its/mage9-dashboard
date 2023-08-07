@@ -1,5 +1,5 @@
 'use client'
-import { WORKSHOP_LINK, COMPETITION_LINK } from '@/constants'
+import { COMPETITION_LINK, WORKSHOP_LINK } from '@/constants'
 import { auth } from '@/utils/firebase'
 import merge from '@/utils/merge'
 import Image from 'next/image'
