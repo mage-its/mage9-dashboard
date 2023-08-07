@@ -7,12 +7,13 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { db, auth, storage, ref, uploadBytes, getDownloadURL } from '@/utils/firebase'
 import { doc, setDoc, } from 'firebase/firestore'
+import { toast } from 'react-hot-toast'
 
-interface PendaftaranDevComProps {
+interface FormDevComProps {
     idCabang: string;
 }
 
-export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
+export default function FormDevCom(props: FormDevComProps) {
 
     const methods = useForm<DaftarLombaType>({
         defaultValues: InitialFormValue,
@@ -66,7 +67,6 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
             const userDocRef = doc(db, props.idCabang, auth!.currentUser!.uid)
             await setDoc(userDocRef, data);
 
-            console.log('Berhasil daftar!')
             window.location.reload();
         } catch (error) {
             throw error
@@ -74,8 +74,20 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
     }
 
     const onSubmit = (data: DaftarLombaType) => {
-        DaftarLomba(data)
-        // console.log('Form Submission Data', data)
+        const daftarPromise = DaftarLomba(data)
+        toast
+            .promise(
+                daftarPromise,
+                {
+                    loading: 'Loading...',
+                    success: 'Pendaftaran Berhasil!',
+                    error: (e) => e.response.data.message,
+                },
+                { duration: 3000 }
+            )
+            .then(() => {
+                reset()
+            })
     }
     return (
         <FormProvider {...methods}>

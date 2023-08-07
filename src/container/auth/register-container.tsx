@@ -50,7 +50,13 @@ export default function RegisterContainer() {
     useEffect(() => {
         if (user) {
             toast.success('Register successful!')
-            router.push('/')
+            if (user.emailVerified) {
+                router.push('/')
+            }
+            else {
+                router.push('/login')
+                toast.success('Verifikasi email berhasil dikirim!')
+            }
         }
     }, [user])
 
@@ -58,13 +64,9 @@ export default function RegisterContainer() {
 
     const registerNewAccount = async (data: RegisterProps) => {
         try {
-            console.log(data)
             const userCred = await createUserWithEmailAndPassword(auth, data.email, data.password).then((value) => value)
             sendEmailVerification(userCred.user)
-            if (userCred) {
-                toast.success('Verifikasi email berhasil dikirim!')
-            }
-            else {
+            if (!userCred) {
                 throw 'Error while Sign In'
             }
         } catch (error: any) {

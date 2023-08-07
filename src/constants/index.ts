@@ -1,5 +1,20 @@
 import { z } from 'zod'
 
+export const WORKSHOP_LINK = [
+    {
+        label: 'Multimedia',
+        href: 'https://docs.google.com/forms/d/e/1FAIpQLSeDL41ZgkEwCu8YxKJp0kkrjchSop4Rt2CqFSQLNVA4Rk3U7A/viewform?usp=pp_url',
+    },
+    {
+        label: 'Robotik',
+        href: 'https://docs.google.com/forms/d/e/1FAIpQLScH46d2WLTb-m2wFk9lTmHEhwB9XYCatkg8AFgoVuxkrDSD_g/viewform?usp=pp_url',
+    },
+    {
+        label: 'IoT',
+        href: 'https://docs.google.com/forms/d/e/1FAIpQLSdoRSLPct4OjxyT7U9dGF0Z4Y6I1e0Uun9juzlsbRn9ZoaQrA/viewform?usp=pp_url',
+    },
+]
+
 export const COMPETITION_LINK = [
     {
         label: 'App Dev',

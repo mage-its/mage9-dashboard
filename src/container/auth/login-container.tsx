@@ -40,17 +40,18 @@ export default function LoginContainer() {
     const router = useRouter()
     useEffect(() => {
         if (user) {
-            toast.success('Login successful!')
-            router.push('/')
+            if (user.emailVerified) {
+                toast.success('Login successful!')
+                router.push('/')
+            }
         }
     }, [user])
 
     const signIn = async (data: LoginProps) => {
         try {
-            console.log(data)
-            const userCred = await signInWithEmailAndPassword(auth, data.email, data.password).then((value) => value)
-            if (userCred) {
-                console.log('Success')
+            var userCred = await signInWithEmailAndPassword(auth, data.email, data.password).then((value) => value)
+            if (!userCred.user.emailVerified) {
+                toast.error('Harap verifikasi email terlebih dahulu!')
             }
         } catch (error: any) {
             toast.error(error.message)
@@ -60,7 +61,6 @@ export default function LoginContainer() {
     const { register, handleSubmit, reset } = methods
     const onSubmit = (data: LoginProps) => {
         signIn(data)
-        console.log(data)
     }
     return (
         <FormProvider {...methods}>

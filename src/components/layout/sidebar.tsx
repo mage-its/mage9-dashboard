@@ -1,5 +1,5 @@
 'use client'
-import { COMPETITION_LINK } from '@/constants'
+import { WORKSHOP_LINK, COMPETITION_LINK } from '@/constants'
 import { auth } from '@/utils/firebase'
 import merge from '@/utils/merge'
 import Image from 'next/image'
@@ -21,6 +21,7 @@ interface SidebarProps {
 export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
     // STATE
     const [competitionOpen, setCompetitionOpen] = useState(false)
+    const [workshopOpen, setWorkshopOpen] = useState(false)
     const [eventOpen, setEventOpen] = useState(false)
     const router = useRouter()
     const [signOut] = useSignOut(auth)
@@ -81,7 +82,10 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                                 <li className="flex flex-col gap-2.5">
                                     <div
                                         className="inline-flex cursor-pointer items-center justify-between"
-                                        onClick={() => setCompetitionOpen(!competitionOpen)}
+                                        onClick={() => {
+                                            setCompetitionOpen(!competitionOpen)
+                                            setWorkshopOpen(false)
+                                        }}
                                     >
                                         <span>Competition</span>
                                         <BsChevronDown
@@ -109,9 +113,39 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                                     )}
                                 </li>
 
-                                <li className="inline-flex items-center justify-between">
-                                    <span>Workshop</span>
-                                    <BsChevronDown className={merge('mr-5 -rotate-90')} />
+                                <li className="flex flex-col gap-2.5">
+                                    <div
+                                        className="inline-flex cursor-pointer items-center justify-between"
+                                        onClick={() => {
+                                            setWorkshopOpen(!workshopOpen)
+                                            setCompetitionOpen(false)
+                                        }}
+                                    >
+                                        <span>Workshop</span>
+                                        <BsChevronDown
+                                            className={merge(workshopOpen ? 'rotate-0' : '-rotate-90', 'mr-5 ')}
+                                        />
+                                    </div>
+                                    {workshopOpen && (
+                                        <ul className="space-y-2.5 pl-5">
+                                            {WORKSHOP_LINK.map((item, i) => {
+                                                return (
+                                                    <li key={i}>
+                                                        <Link
+                                                            href={item.href}
+                                                            className={merge(
+                                                                'hover:border-b-white',
+                                                                'border-b-2 border-b-transparent'
+                                                            )}
+                                                            target='_blank'
+                                                        >
+                                                            <span>{item.label}</span>
+                                                        </Link>
+                                                    </li>
+                                                )
+                                            })}
+                                        </ul>
+                                    )}
                                 </li>
                             </ul>
                         )}

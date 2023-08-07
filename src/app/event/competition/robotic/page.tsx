@@ -1,5 +1,5 @@
 import Main from '@/components/layout/main'
-import PendaftaranDevCom from '@/container/pendaftaran/daftar-devcom-container'
+import FormDevCom from '@/container/pendaftaran/daftar-devcom-container'
 import React from 'react'
 
 export default function Page() {
