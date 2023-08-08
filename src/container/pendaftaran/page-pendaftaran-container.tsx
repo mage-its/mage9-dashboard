@@ -7,6 +7,7 @@ import Loading from '@/app/loading'
 
 interface PendaftaranDevComProps {
     idCabang: string;
+    guidebook: string;
 }
 
 export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
@@ -44,7 +45,7 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
                         }! Harap tunggu proses verifikasi!
                     </h1>
                 ) : (
-                    <FormDevCom idCabang={props.idCabang} />
+                    <FormDevCom idCabang={props.idCabang} guidebook={props.guidebook} />
                 )
             )}
         </section>

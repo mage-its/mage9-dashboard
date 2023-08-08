@@ -19,18 +19,26 @@ export const COMPETITION_LINK = [
     {
         label: 'App Dev',
         href: '/event/competition/appdev',
+        idCabang: 'appdev',
+        guidebook: 'https://drive.google.com/file/d/1XdPs3pWk6OYeMpHMGCfyBcY-jYo6UZFJ/view?usp=sharing',
     },
     {
         label: 'Game Dev',
         href: '/event/competition/gamedev',
+        idCabang: 'gamedev',
+        guidebook: 'https://drive.google.com/file/d/1vdFQvSl9NOgbvsQcSm0mm52slUIskQX5/view?usp=sharing',
     },
     {
         label: 'IoT',
         href: '/event/competition/iot',
+        idCabang: 'iot',
+        guidebook: 'https://drive.google.com/file/d/1s2UrN3KR-8COeZGNZBxyvxdnfWjOK1tc/view?usp=sharing',
     },
     {
         label: 'Robotics',
         href: '/event/competition/robotic',
+        idCabang: 'robotics',
+        guidebook: '#',
     },
 ]
 

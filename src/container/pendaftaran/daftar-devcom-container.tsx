@@ -11,6 +11,7 @@ import { toast } from 'react-hot-toast'
 
 interface FormDevComProps {
     idCabang: string;
+    guidebook: string;
 }
 
 export default function FormDevCom(props: FormDevComProps) {
@@ -91,6 +92,13 @@ export default function FormDevCom(props: FormDevComProps) {
     }
     return (
         <FormProvider {...methods}>
+            <a
+                className=" col-span-2 mx-auto w-3/4 mt-10 flex h-10 items-center justify-center gap-5 rounded bg-custom-purple text-white hover:bg-custom-purple/80 hover:text-white hover:shadow-lg"
+                href={props.guidebook}
+                target='_blank'
+            >
+                Unduh Guidebook di sini!
+            </a>
             <form
                 className="mx-auto w-3/4 space-y-10 py-10"
                 onSubmit={handleSubmit(onSubmit)}
@@ -139,12 +147,16 @@ export default function FormDevCom(props: FormDevComProps) {
                         <Input id="alamatInstansi" label="Alamat Instansi" className="col-span-2 w-full" />
                     </div>
                 </section>
+                <p>
+                    Ketentuan berkas berada pada Alur Pendaftaran dan Ketentuan Umum guidebook.
+                </p>
                 <section className="grid grid-cols-2 gap-x-5">
                     <Input
                         id="identitasKetua"
                         name="identitasKetua"
                         type="file"
                         label="* Berkas Ketua"
+                        accept=".zip, .rar"
                         className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
                     />
                     <Input
@@ -152,6 +164,7 @@ export default function FormDevCom(props: FormDevComProps) {
                         name="identitasAnggota1"
                         type="file"
                         label="Berkas Anggota 1"
+                        accept=".zip, .rar"
                         className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
                     />
                     <Input
@@ -159,6 +172,7 @@ export default function FormDevCom(props: FormDevComProps) {
                         name="identitasAnggota2"
                         type="file"
                         label="Berkas Anggota 2"
+                        accept=".zip, .rar"
                         className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
                     />
                     <Input
@@ -166,6 +180,7 @@ export default function FormDevCom(props: FormDevComProps) {
                         name="buktiPembayaran"
                         type="file"
                         label="* Bukti Pembayaran"
+                        accept=".zip, .rar"
                         className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
                     />
                     {loading ? (

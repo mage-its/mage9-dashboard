@@ -13,7 +13,7 @@ interface MainProps extends React.HTMLAttributes<HTMLBodyElement> {
 
 const Main: React.FC<MainProps> = (props) => {
     const { children } = props
-    const [showSidebar, setShowSidebar] = useState(false)
+    const [showSidebar, setShowSidebar] = useState(true)
     const router = useRouter()
     const [user, loading] = useAuthState(auth)
 

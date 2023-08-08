@@ -69,7 +69,9 @@ export default function LoginContainer() {
             <h1 className="font-airstrike text-7xl text-sky-400">MAGE</h1>
             <h2 className="text-xl text-sky-400">Multimedia and Game Event</h2>
             <section className="flex flex-col space-y-5 rounded-3xl bg-custom-grey p-10 sm:w-[450px]">
-                <Image src={LogoMage} alt="logo" width={75} height={75} className="mx-auto" />
+                <Link href='https://mage-ce.id'>
+                    <Image src={LogoMage} alt="logo" width={75} height={75} className="mx-auto" />
+                </Link>
                 <h4 className="text-center">Login to Dashboard MAGE 9</h4>
                 <form className="mx-auto w-full space-y-5" onSubmit={handleSubmit(onSubmit)}>
                     <Input type="email" id="email" name="email" label="Your Email" labelClassName="ml-0" />

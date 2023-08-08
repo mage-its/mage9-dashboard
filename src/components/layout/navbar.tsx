@@ -74,7 +74,7 @@ export default function Navbar({ toggle, toggled }: NavbarProps) {
                 <div className={merge(toggled && 'max-lg:')}>
                     <Hamburger toggle={toggle} toggled={toggled} size={24} />
                 </div>
-                <Link href='http://localhost:3006'>
+                <Link href='https://mage-ce.id'>
                     <Image
                         alt='Logo Mage9'
                         width={35}

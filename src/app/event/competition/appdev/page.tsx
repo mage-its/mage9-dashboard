@@ -1,14 +1,12 @@
 import Main from '@/components/layout/main'
 import React from 'react'
 import PendaftaranDevCom from '@/container/pendaftaran/page-pendaftaran-container'
-
-const idCabang = 'appdev'
+import { COMPETITION_LINK } from '@/constants'
 
 export default function Page() {
-
     return (
         <Main>
-            <PendaftaranDevCom idCabang={idCabang} />
+            <PendaftaranDevCom idCabang={COMPETITION_LINK[0].idCabang} guidebook={COMPETITION_LINK[0].guidebook} />
         </Main>
     )
 }

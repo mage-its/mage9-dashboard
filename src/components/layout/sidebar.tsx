@@ -20,9 +20,9 @@ interface SidebarProps {
 
 export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
     // STATE
-    const [competitionOpen, setCompetitionOpen] = useState(false)
+    const [competitionOpen, setCompetitionOpen] = useState(true)
     const [workshopOpen, setWorkshopOpen] = useState(false)
-    const [eventOpen, setEventOpen] = useState(false)
+    const [eventOpen, setEventOpen] = useState(true)
     const router = useRouter()
     const [signOut] = useSignOut(auth)
     const [user] = useAuthState(auth)
