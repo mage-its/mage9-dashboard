@@ -96,6 +96,7 @@ export default function FormDevCom(props: FormDevComProps) {
                 className=" col-span-2 mx-auto w-3/4 mt-10 flex h-10 items-center justify-center gap-5 rounded bg-custom-purple text-white hover:bg-custom-purple/80 hover:text-white hover:shadow-lg"
                 href={props.guidebook}
                 target='_blank'
+                rel='noreferrer noopener'
             >
                 Unduh Guidebook di sini!
             </a>
