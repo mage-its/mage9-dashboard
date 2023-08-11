@@ -11,6 +11,7 @@ import { toast } from 'react-hot-toast'
 import Image from 'next/image'
 import { DownloadGuidebookButton } from '../button/download-guidebook'
 import { StatusBerkas } from '@/utils/enum'
+import { FirebaseError } from 'firebase/app'
 
 export default function FormDevCom(props: COMPETITION_MODEL) {
 
@@ -32,7 +33,7 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                 return getDownloadURL(snapshot.ref);
             }).then((url) => {
                 data.identitasKetua = url
-            })
+            }).catch((error) => { throw error })
 
             // Bukti Pembayaran
             const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/buktiPembayaran/${data.buktiPembayaran[0].name}`)
@@ -40,7 +41,7 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                 return getDownloadURL(snapshot.ref);
             }).then((url) => {
                 data.buktiPembayaran = url
-            })
+            }).catch((error) => { throw error })
 
             // Anggota 1
             if (data.identitasAnggota1[0]) {
@@ -49,7 +50,7 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
                     data.identitasAnggota1 = url
-                })
+                }).catch((error) => { throw error })
             }
 
             // Anggota 2
@@ -59,7 +60,7 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
                     data.identitasAnggota2 = url
-                })
+                }).catch((error) => { throw error })
             }
 
             // >>>>>>>>>>>>>>>> Store string stuff
@@ -72,12 +73,12 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
             }
 
             const userDocRef = doc(db, props.idCabang, auth.currentUser?.uid ?? '')
-            await setDoc(userDocRef, newData);
+            await setDoc(userDocRef, newData).catch((error) => { throw error });
 
             setLoading(false)
             window.location.reload();
         } catch (error) {
-            throw error
+            toast.error((error as FirebaseError).message)
         }
     }
 

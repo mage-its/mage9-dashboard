@@ -1,5 +1,4 @@
-import { type } from 'os'
-import { string, z } from 'zod'
+import { z } from 'zod'
 
 export const WORKSHOP_LINK = [
     {

@@ -1,4 +1,6 @@
-import LoadingComponent from "@/components/layout/loading"
+'use client'
+import LoadingComponent from '@/components/layout/loading'
+import React from 'react'
 
 const Loading = () => {
     return (

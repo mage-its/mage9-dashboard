@@ -32,7 +32,7 @@ export default function ForgotRequestPasswordContainer() {
         mode: 'onTouched',
         resolver: zodResolver(ForgotRequestSchema),
     })
-    const { handleSubmit, reset } = methods
+    const { handleSubmit } = methods
 
     const ForgotRequestUser = async (email: string) => {
         try {

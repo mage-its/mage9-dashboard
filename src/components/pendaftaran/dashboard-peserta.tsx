@@ -30,6 +30,10 @@ const DashboardPeserta = (props: COMPETITION_MODEL) => {
 
                 if (docSnap.exists()) {
                     setStatusKetua(docSnap.data().ketuaVerified)
+                    setStatusAnggota1(docSnap.data().anggota1Verified)
+                    setStatusAnggota2(docSnap.data().anggota2Verified)
+                    setStatusPembayaran(docSnap.data().pembayaranVerified)
+
                     setnamaTim(docSnap.data().namaTim)
                     setNamaKetua(docSnap.data().namaKetua)
                     setNamaAnggota1(docSnap.data().namaAnggota1)
