@@ -27,7 +27,7 @@ export default function GoogleButton() {
 
     const LoginWithGoogle = async () => {
         try {
-            let userCred = await signInWithPopup(auth, provider)
+            const userCred = await signInWithPopup(auth, provider)
             if (userCred) {
                 const docSnap = await getDoc(doc(db, "users", userCred.user.uid))
                 if (!docSnap.exists()) {

@@ -5,7 +5,6 @@ import LoadingComponent from '@/components/layout/loading'
 import React, { useEffect, useState } from 'react'
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { auth, db } from '@/utils/firebase'
-import AdminPage from '../admin/admin-container'
 import Link from 'next/link'
 
 const HomeContainer = () => {

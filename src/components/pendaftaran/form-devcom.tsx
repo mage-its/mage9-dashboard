@@ -6,12 +6,11 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { auth, db, storage } from '@/utils/firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { toast } from 'react-hot-toast'
 import Image from 'next/image'
 import { DownloadGuidebookButton } from '../button/download-guidebook'
 import { StatusBerkas } from '@/utils/enum'
-import { FirebaseError } from 'firebase/app'
 
 export default function FormDevCom(props: COMPETITION_MODEL) {
 
@@ -29,7 +28,7 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
             // >>>>>>>>>>>>>>>> Add Compe Id to user
             const userRef = doc(db, 'users', auth.currentUser?.uid ?? '');
             const docSnap = await getDoc(userRef);
-            let temp: any[] = docSnap.data()?.competition ?? []
+            const temp: any[] = docSnap.data()?.competition ?? []
             temp.push(props.idCabang)
             await updateDoc(userRef, {
                 competition: temp
