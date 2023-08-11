@@ -26,8 +26,8 @@ export default function GoogleButton() {
     const LoginWithGoogle = async () => {
         try {
             const result = await signInWithPopup(auth, provider)
-            const token = await result.user.getIdToken()
-            console.log('TokenID', token)
+            // const token = await result.user.getIdToken()
+            // console.log('TokenID', token)
         } catch (error) {
             toast.error((error as FirebaseError).message, {
                 position: 'top-center',

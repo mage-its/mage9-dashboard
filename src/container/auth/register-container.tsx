@@ -48,6 +48,11 @@ export default function RegisterContainer() {
 
     const [user] = useAuthState(auth)
     const router = useRouter()
+    const verifNotif = async () => {
+        toast.success('Verifikasi email berhasil dikirim!')
+        await new Promise(res => setTimeout(res, 2000))
+        router.push('/login')
+    }
     useEffect(() => {
         if (user) {
             toast.success('Register successful!')
@@ -55,8 +60,7 @@ export default function RegisterContainer() {
                 router.push('/')
             }
             else {
-                router.push('/login')
-                toast.success('Verifikasi email berhasil dikirim!')
+                verifNotif()
             }
         }
     }, [user])

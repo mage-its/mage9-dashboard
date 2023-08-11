@@ -1,16 +1,13 @@
 'use client'
-import FormDevCom from '@/container/pendaftaran/daftar-devcom-container'
+import FormDevCom from '@/components/pendaftaran/form-devcom'
 import React, { useEffect, useState } from 'react'
 import { auth, db } from '@/utils/firebase'
 import { doc, getDoc } from 'firebase/firestore'
 import Loading from '@/app/loading'
+import DashboardPeserta from '../../components/pendaftaran/dashboard-peserta'
+import { COMPETITION_MODEL } from '@/constants'
 
-interface PendaftaranDevComProps {
-    idCabang: string;
-    guidebook: string;
-}
-
-export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
+export default function DevComPage(props: COMPETITION_MODEL) {
     const [isLoading, setIsLoading] = useState(true);
     const [isRegistered, setIsRegistered] = useState(false);
 
@@ -31,21 +28,14 @@ export default function PendaftaranDevCom(props: PendaftaranDevComProps) {
     }, []);
 
     return (
-        <section className="h-full w-full">
+        <section className="w-full">
             {isLoading ? (
                 <Loading></Loading>
             ) : (
                 isRegistered ? (
-                    <h1 className="h-full w-full flex justify-center items-center text-center">
-                        Anda telah terdaftar pada {
-                            props.idCabang == 'appdev' ? 'AppDev' :
-                                props.idCabang == 'gamedev' ? 'GameDev' :
-                                    props.idCabang == 'iot' ? 'IoT' :
-                                        'Error'
-                        }! Harap tunggu proses verifikasi!
-                    </h1>
+                    <DashboardPeserta {...props} />
                 ) : (
-                    <FormDevCom idCabang={props.idCabang} guidebook={props.guidebook} />
+                    <FormDevCom {...props} />
                 )
             )}
         </section>

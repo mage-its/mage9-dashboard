@@ -5,10 +5,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { Toaster } from 'react-hot-toast'
+import { Toaster, toast } from 'react-hot-toast'
 import { BsChevronLeft } from 'react-icons/bs'
 import { z } from 'zod'
 import LogoMage from '~/assets/images/component/logo-mage.png'
+import { sendPasswordResetEmail } from 'firebase/auth'
+import { auth } from '@/utils/firebase'
+import { FirebaseError } from 'firebase/app'
+import { useRouter } from 'next/navigation'
 
 const ForgotRequestSchema = z.object({
     email: z.string().email({ message: 'Perhatikan format email!' }),
@@ -20,17 +24,9 @@ const ForgotRequestInitialValue: ForgotRequestProps = {
     email: '',
 }
 
-// const ForgotRequestUser = async (email: string) => {
-//     try {
-//         await api.post('/forgotRequest_password/request', {
-//             email: email,
-//         })
-//     } catch (error) {
-//         throw error
-//     }
-// }
-
 export default function ForgotRequestPasswordContainer() {
+    const router = useRouter()
+
     const methods = useForm<ForgotRequestProps>({
         defaultValues: ForgotRequestInitialValue,
         mode: 'onTouched',
@@ -38,9 +34,19 @@ export default function ForgotRequestPasswordContainer() {
     })
     const { handleSubmit, reset } = methods
 
+    const ForgotRequestUser = async (email: string) => {
+        try {
+            await sendPasswordResetEmail(auth, email)
+            toast.success('Password reset email sent')
+            await new Promise(res => setTimeout(res, 2000))
+            router.push('/login')
+        } catch (error) {
+            toast.error((error as FirebaseError).message)
+        }
+    }
+
     const onSubmit = (data: ForgotRequestProps) => {
-        console.log(data)
-        reset()
+        ForgotRequestUser(data.email)
     }
 
     return (
@@ -54,7 +60,7 @@ export default function ForgotRequestPasswordContainer() {
                 <form className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8" onSubmit={handleSubmit(onSubmit)}>
                     <h3 className="text-xl font-medium  text-white">Reset Password</h3>
                     <p className="text-sm text-white ">
-                        ForgotRequestten your password? Enter your e-mail address below, and we&apos;ll send you an
+                        Forgotten your password? Enter your e-mail address below, and we&apos;ll send you an
                         e-mail allowing you to reset it.
                     </p>
                     <div>

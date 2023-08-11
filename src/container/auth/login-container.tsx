@@ -6,7 +6,7 @@ import { auth } from '@/utils/firebase'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
+import { useAuthState, useSignOut } from 'react-firebase-hooks/auth'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import toast from 'react-hot-toast'
 
@@ -20,7 +20,7 @@ import { FirebaseError } from 'firebase/app'
 
 const LoginFormSchema = z.object({
     email: z.string().email({ message: 'Perhatikan format email!' }),
-    password: z.string(),
+    password: z.string().nonempty('Harap isikan password').min(6, 'Kata sandi minimal 6 karakter!'),
 })
 
 type LoginProps = z.infer<typeof LoginFormSchema>
@@ -39,11 +39,14 @@ export default function LoginContainer() {
 
     const [user] = useAuthState(auth)
     const router = useRouter()
+    const [signOut] = useSignOut(auth)
     useEffect(() => {
         if (user) {
             if (user.emailVerified) {
                 toast.success('Login successful!')
                 router.push('/')
+            } else {
+                signOut()
             }
         }
     }, [user])

@@ -1,5 +1,5 @@
 'use client'
-import { COMPETITION_LINK, WORKSHOP_LINK } from '@/constants'
+import { COMPETITIONS, WORKSHOP_LINK } from '@/constants'
 import { auth } from '@/utils/firebase'
 import merge from '@/utils/merge'
 import Image from 'next/image'
@@ -81,7 +81,7 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                             <ul className="flex flex-col gap-2.5 pl-10">
                                 <li className="flex flex-col gap-2.5">
                                     <div
-                                        className="inline-flex cursor-pointer items-center justify-between"
+                                        className="inline-flex cursor-pointer items-center justify-between hover:bg-white/25"
                                         onClick={() => {
                                             setCompetitionOpen(!competitionOpen)
                                             setWorkshopOpen(false)
@@ -94,7 +94,7 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                                     </div>
                                     {competitionOpen && (
                                         <ul className="space-y-2.5 pl-5">
-                                            {COMPETITION_LINK.map((item, i) => {
+                                            {COMPETITIONS.map((item, i) => {
                                                 return (
                                                     <li key={i}>
                                                         <Link
@@ -115,7 +115,7 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
 
                                 <li className="flex flex-col gap-2.5">
                                     <div
-                                        className="inline-flex cursor-pointer items-center justify-between"
+                                        className="inline-flex cursor-pointer items-center justify-between hover:bg-white/25"
                                         onClick={() => {
                                             setWorkshopOpen(!workshopOpen)
                                             setCompetitionOpen(false)

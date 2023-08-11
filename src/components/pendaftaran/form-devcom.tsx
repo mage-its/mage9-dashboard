@@ -1,20 +1,18 @@
-/* eslint-disable no-useless-catch */
 'use client'
 import Input from '@/components/form/input'
-import { DaftarLombaScheme, DaftarLombaType, InitialFormValue } from '@/constants'
+import { COMPETITION_MODEL, DaftarLombaScheme, DaftarLombaType, InitialFormValue } from '@/constants'
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { auth, db, getDownloadURL, ref, storage, uploadBytes } from '@/utils/firebase'
+import { auth, db, storage } from '@/utils/firebase'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { doc, setDoc, } from 'firebase/firestore'
 import { toast } from 'react-hot-toast'
+import Image from 'next/image'
+import { DownloadGuidebookButton } from '../button/download-guidebook'
+import { StatusBerkas } from '@/utils/enum'
 
-interface FormDevComProps {
-    idCabang: string;
-    guidebook: string;
-}
-
-export default function FormDevCom(props: FormDevComProps) {
+export default function FormDevCom(props: COMPETITION_MODEL) {
 
     const methods = useForm<DaftarLombaType>({
         defaultValues: InitialFormValue,
@@ -46,7 +44,7 @@ export default function FormDevCom(props: FormDevComProps) {
 
             // Anggota 1
             if (data.identitasAnggota1[0]) {
-                const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/buktiPembayaran/${data.identitasAnggota1[0].name}`)
+                const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasAnggota1/${data.identitasAnggota1[0].name}`)
                 await uploadBytes(buktiPembayaranFolderRef, data.identitasAnggota1[0]).then((snapshot) => {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
@@ -56,7 +54,7 @@ export default function FormDevCom(props: FormDevComProps) {
 
             // Anggota 2
             if (data.identitasAnggota2[0]) {
-                const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/buktiPembayaran/${data.identitasAnggota2[0].name}`)
+                const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasAnggota2/${data.identitasAnggota2[0].name}`)
                 await uploadBytes(buktiPembayaranFolderRef, data.identitasAnggota2[0]).then((snapshot) => {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
@@ -65,9 +63,18 @@ export default function FormDevCom(props: FormDevComProps) {
             }
 
             // >>>>>>>>>>>>>>>> Store string stuff
-            const userDocRef = doc(db, props.idCabang, auth.currentUser?.uid ?? '')
-            await setDoc(userDocRef, data);
+            const newData = {
+                ...data,
+                ketuaVerified: StatusBerkas.verify,
+                anggota1Verified: StatusBerkas.verify,
+                anggota2Verified: StatusBerkas.verify,
+                pembayaranVerified: StatusBerkas.verify,
+            }
 
+            const userDocRef = doc(db, props.idCabang, auth.currentUser?.uid ?? '')
+            await setDoc(userDocRef, newData);
+
+            setLoading(false)
             window.location.reload();
         } catch (error) {
             throw error
@@ -92,22 +99,27 @@ export default function FormDevCom(props: FormDevComProps) {
     }
     return (
         <FormProvider {...methods}>
-            <a
-                className=" col-span-2 mx-auto w-3/4 mt-10 flex h-10 items-center justify-center gap-5 rounded bg-custom-purple text-white hover:bg-custom-purple/80 hover:text-white hover:shadow-lg"
-                href={props.guidebook}
-                target='_blank'
-                rel='noreferrer noopener'
-            >
-                Unduh Guidebook di sini!
-            </a>
+            <div className=' my-4 mx-auto w-3/4 flex flex-col mb-4 gap-5 md:flex-row items-center'>
+                <div className='flex items-center justify-center gap-4'>
+                    <Image
+                        src={props.logo}
+                        width={1}
+                        height={1}
+                        alt="Logo"
+                        className="object-fit h-20 w-20 md:h-28 md:w-28"
+                    />
+                    <h1>{props.label}</h1>
+                </div>
+                <DownloadGuidebookButton link={props.guidebook} />
+            </div>
             <form
-                className="mx-auto w-3/4 space-y-10 py-10"
+                className="mx-auto w-3/4 space-y-10"
                 onSubmit={handleSubmit(onSubmit)}
                 encType="multipart/form-data"
             >
-                <section className="grid h-full w-full grid-cols-2 gap-x-5">
+                <section className="grid h-full w-full gap-y-3 md:grid-cols-2 md:gap-x-5 md:gap-y-1">
                     <div className="mx-auto flex w-full flex-col  ">
-                        <label htmlFor="kategori">* Pilih Kategori:</label>
+                        <label htmlFor="kategori">Pilih Kategori: *</ label>
                         <select
                             id="kategori"
                             className="rounded border-gray-500 bg-gray-600"
@@ -124,7 +136,7 @@ export default function FormDevCom(props: FormDevComProps) {
                         </select>
                     </div>
                     <div className="mx-auto flex w-full flex-col">
-                        <label htmlFor="kategori">* Tahu MAGE 9 Darimana:</label>
+                        <label htmlFor="kategori">Tahu MAGE 9 Darimana: *</ label>
                         <select
                             id="kategori"
                             className="rounded border-gray-500 bg-gray-600"
@@ -136,27 +148,27 @@ export default function FormDevCom(props: FormDevComProps) {
                             <option value="lainnya">Lainnya</option>
                         </select>
                     </div>
-                    <Input id="namaTim" label="* Nama Tim" />
-                    <Input id="namaKetua" label="* Nama Ketua" />
-                    <Input id="waKetua" label="* No HP Ketua" />
-                    <Input id="lineKetua" label="* ID Line Ketua" />
+                    <Input id="namaTim" label="Nama Tim *" />
+                    <Input id="namaKetua" label="Nama Ketua *" />
+                    <Input id="waKetua" label="No HP Ketua *" />
+                    <Input id="lineKetua" label="ID Line Ketua *" />
                     <Input id="namaAnggota1" label="Nama Anggota 1" />
                     <Input id="namaAnggota2" label="Nama Anggota 2" />
-                    <Input id="asalKota" label="* Asal Kota" />
-                    <Input id="asalInstansi" label="* Asal Instansi" />
-                    <div className="col-span-2 w-full">
-                        <Input id="alamatInstansi" label="Alamat Instansi" className="col-span-2 w-full" />
+                    <Input id="asalKota" label="Asal Kota *" />
+                    <Input id="asalInstansi" label="Asal Instansi *" />
+                    <div className="md:col-span-2 w-full">
+                        <Input id="alamatInstansi" label="Alamat Instansi" className="md:col-span-2 w-full" />
                     </div>
                 </section>
-                <p>
-                    Ketentuan berkas berada pada Alur Pendaftaran dan Ketentuan Umum guidebook.
-                </p>
-                <section className="grid grid-cols-2 gap-x-5">
+                <section className="md:grid md:grid-cols-2 md:gap-x-5 md:gap-y-1">
+                    <h5 className='col-span-2 text-center font-bold mb-2'>
+                        Ketentuan berkas dapat dilihat di Alur Pendaftaran dan Ketentuan Umum guidebook.
+                    </h5>
                     <Input
                         id="identitasKetua"
                         name="identitasKetua"
                         type="file"
-                        label="* Berkas Ketua"
+                        label="Berkas Ketua *"
                         accept=".zip, .rar"
                         className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
                     />
@@ -180,8 +192,8 @@ export default function FormDevCom(props: FormDevComProps) {
                         id="buktiPembayaran"
                         name="buktiPembayaran"
                         type="file"
-                        label="* Bukti Pembayaran"
-                        accept=".zip, .rar"
+                        label="Bukti Pembayaran *"
+                        accept=".jpg, .jpeg, .png, .pdf, .raw"
                         className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
                     />
                     {loading ? (

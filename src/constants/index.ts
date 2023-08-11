@@ -1,4 +1,5 @@
-import { z } from 'zod'
+import { type } from 'os'
+import { string, z } from 'zod'
 
 export const WORKSHOP_LINK = [
     {
@@ -15,30 +16,42 @@ export const WORKSHOP_LINK = [
     },
 ]
 
-export const COMPETITION_LINK = [
+export type COMPETITION_MODEL = {
+    label: string
+    href: string
+    idCabang: string
+    guidebook: string
+    logo: string
+}
+
+export const COMPETITIONS: COMPETITION_MODEL[] = [
     {
         label: 'App Dev',
         href: '/event/competition/appdev',
         idCabang: 'appdev',
         guidebook: 'https://drive.google.com/file/d/1XdPs3pWk6OYeMpHMGCfyBcY-jYo6UZFJ/view?usp=sharing',
+        logo: '/assets/images/logo/appdev.svg',
     },
     {
         label: 'Game Dev',
         href: '/event/competition/gamedev',
         idCabang: 'gamedev',
         guidebook: 'https://drive.google.com/file/d/1vdFQvSl9NOgbvsQcSm0mm52slUIskQX5/view?usp=sharing',
+        logo: '/assets/images/logo/gamedev.svg',
     },
     {
         label: 'IoT',
         href: '/event/competition/iot',
         idCabang: 'iot',
         guidebook: 'https://drive.google.com/file/d/1s2UrN3KR-8COeZGNZBxyvxdnfWjOK1tc/view?usp=sharing',
+        logo: '/assets/images/logo/iot.svg',
     },
     {
         label: 'Robotics',
         href: '/event/competition/robotic',
         idCabang: 'robotics',
         guidebook: '#',
+        logo: '/assets/images/logo/robotic.svg',
     },
 ]
 
