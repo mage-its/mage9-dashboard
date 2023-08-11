@@ -1,5 +1,20 @@
 import { z } from 'zod'
 
+export const DASHBOARD_LINK = [
+    {
+        label: 'Verifikasi Tim',
+        href: '/',
+    },
+    {
+        label: 'Idk',
+        href: '/',
+    },
+    {
+        label: 'Idk',
+        href: '/',
+    },
+]
+
 export const WORKSHOP_LINK = [
     {
         label: 'Multimedia',

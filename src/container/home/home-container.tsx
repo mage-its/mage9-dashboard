@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { auth, db } from '@/utils/firebase'
 import AdminPage from '../admin/admin-container'
+import Link from 'next/link'
 
 const HomeContainer = () => {
     const [loading, setLoading] = useState(true)
@@ -56,9 +57,7 @@ const HomeContainer = () => {
         loading ? (
             <LoadingComponent />
         ) : (
-            isAdmin ? (
-                <AdminPage />
-            ) : (
+            <div className='pb-10'>
                 <section className="flex flex-col items-center justify-center gap-10 py-10">
                     <div className=" min-h-[15rem] w-3/4 rounded-lg bg-custom-blue/50 overflow-hidden">
                         <div className="bg-custom-purple p-2.5">
@@ -73,7 +72,18 @@ const HomeContainer = () => {
                         <MyEvent list={events} />
                     </div>
                 </section >
-            )
+                {isAdmin &&
+                    <Link
+                        className="mx-auto px-4 py-4 w-3/4 flex min-h-10 items-center text-center justify-center rounded-xl bg-custom-purple text-white hover:bg-custom-purple/80 hover:text-white hover:shadow-lg"
+                        href={''}
+                    >
+                        <h4>
+
+                            DASHBOARD ADMIN
+                        </h4>
+                    </Link>
+                }
+            </div>
         )
     )
 }

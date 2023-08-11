@@ -1,17 +1,18 @@
 'use client'
-import { COMPETITIONS, WORKSHOP_LINK } from '@/constants'
-import { auth } from '@/utils/firebase'
+import { COMPETITIONS, DASHBOARD_LINK, WORKSHOP_LINK } from '@/constants'
+import { auth, db } from '@/utils/firebase'
 import merge from '@/utils/merge'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSignOut } from 'react-firebase-hooks/auth'
-import { BiHomeAlt2, BiLogOut } from 'react-icons/bi'
+import { BiHomeAlt2, BiLogOut, BiUserCheck } from 'react-icons/bi'
 import { BsCalendar4Event, BsChevronDown } from 'react-icons/bs'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useRouter } from 'next/navigation'
 import Avatar from '~/assets/images/component/profile.png'
 import Hamburger from 'hamburger-react'
+import { doc, getDoc } from 'firebase/firestore'
 interface SidebarProps {
     showNavbar: true | boolean
     toggle: React.Dispatch<React.SetStateAction<boolean>> | undefined
@@ -23,6 +24,8 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
     const [competitionOpen, setCompetitionOpen] = useState(true)
     const [workshopOpen, setWorkshopOpen] = useState(false)
     const [eventOpen, setEventOpen] = useState(true)
+    const [dashboardOpen, setDashboardOpen] = useState(true)
+    const [isAdmin, setIsAdmin] = useState(false)
     const router = useRouter()
     const [signOut] = useSignOut(auth)
     const [user] = useAuthState(auth)
@@ -31,6 +34,26 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
         signOut()
         router.push('/login')
     }
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const docRef = doc(db, 'users', user.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    if (docSnap.data().admin) {
+                        setIsAdmin(true)
+                        setEventOpen(false)
+                        setDashboardOpen(true)
+                    }
+                }
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
+
     return (
         <div
             className={merge(
@@ -60,15 +83,22 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
             </section>
             <section className="h-full w-full border-t-4 border-custom-blue pt-5 text-lg">
                 <ul className="h-full w-full cursor-pointer">
+
+                    {/* Home */}
                     <li className=" w-full hover:bg-white/25">
                         <Link href="/" className="inline-flex  h-full w-full items-center gap-2.5 p-2.5">
                             <BiHomeAlt2 />
                             Home
                         </Link>
                     </li>
+
+                    {/* Event */}
                     <li className=" flex w-full flex-col gap-2.5">
                         <div
-                            onClick={() => setEventOpen(!eventOpen)}
+                            onClick={() => {
+                                setEventOpen(!eventOpen)
+                                setDashboardOpen(false)
+                            }}
                             className="inline-flex items-center justify-between hover:bg-white/25"
                         >
                             <div className="inline-flex h-full w-full items-center gap-2.5 p-2.5">
@@ -150,6 +180,45 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                             </ul>
                         )}
                     </li>
+
+                    {/* Dashbaord */}
+                    {isAdmin &&
+                        <li className=" flex w-full flex-col gap-2.5">
+                            <div
+                                onClick={() => {
+                                    setDashboardOpen(true)
+                                    setEventOpen(false)
+                                    // TODO
+                                }}
+                                className="inline-flex items-center justify-between hover:bg-white/25"
+                            >
+                                <div className="inline-flex h-full w-full items-center gap-2.5 p-2.5">
+                                    <BiUserCheck />
+                                    Dashboard
+                                </div>
+                                <BsChevronDown className={merge(dashboardOpen ? 'rotate-0' : '-rotate-90', 'mr-5 ')} />
+                            </div>
+                            {dashboardOpen && (
+                                <ul className="flex flex-col gap-2.5 pl-10">
+                                    {DASHBOARD_LINK.map((item, i) => {
+                                        return (
+                                            <li key={i}>
+                                                <Link
+                                                    href={item.href}
+                                                    className={merge(
+                                                        'hover:border-b-white',
+                                                        'border-b-2 border-b-transparent'
+                                                    )}
+                                                >
+                                                    <span>{item.label}</span>
+                                                </Link>
+                                            </li>
+                                        )
+                                    })}
+                                </ul>
+                            )}
+                        </li>
+                    }
                 </ul>
             </section>
             <section className="flex h-full w-full items-end">
