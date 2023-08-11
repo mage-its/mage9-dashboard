@@ -6,7 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { auth, db, storage } from '@/utils/firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { doc, setDoc, } from 'firebase/firestore'
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
 import { toast } from 'react-hot-toast'
 import Image from 'next/image'
 import { DownloadGuidebookButton } from '../button/download-guidebook'
@@ -26,6 +26,15 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
     const DaftarLomba = async (data: DaftarLombaType) => {
         setLoading(true);
         try {
+            // >>>>>>>>>>>>>>>> Add Compe Id to user
+            const userRef = doc(db, 'users', auth.currentUser?.uid ?? '');
+            const docSnap = await getDoc(userRef);
+            let temp: any[] = docSnap.data()?.competition ?? []
+            temp.push(props.idCabang)
+            await updateDoc(userRef, {
+                competition: temp
+            });
+
             // >>>>>>>>>>>>>>>> Store image stuff
             // Identitas Ketua
             const identitasKetuaFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasKetua/${data.identitasKetua[0].name}`)
@@ -44,23 +53,29 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
             }).catch((error) => { throw error })
 
             // Anggota 1
-            if (data.identitasAnggota1[0]) {
+            if (data.identitasAnggota1.length > 0 && data.namaAnggota1 != '') {
                 const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasAnggota1/${data.identitasAnggota1[0].name}`)
                 await uploadBytes(buktiPembayaranFolderRef, data.identitasAnggota1[0]).then((snapshot) => {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
                     data.identitasAnggota1 = url
                 }).catch((error) => { throw error })
+            } else {
+                data.identitasAnggota1 = ''
+                data.namaAnggota1 = ''
             }
 
             // Anggota 2
-            if (data.identitasAnggota2[0]) {
+            if (data.identitasAnggota2.length > 0 && data.namaAnggota2 != '') {
                 const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasAnggota2/${data.identitasAnggota2[0].name}`)
                 await uploadBytes(buktiPembayaranFolderRef, data.identitasAnggota2[0]).then((snapshot) => {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
                     data.identitasAnggota2 = url
                 }).catch((error) => { throw error })
+            } else {
+                data.identitasAnggota2 = ''
+                data.namaAnggota2 = ''
             }
 
             // >>>>>>>>>>>>>>>> Store string stuff
@@ -75,10 +90,10 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
             const userDocRef = doc(db, props.idCabang, auth.currentUser?.uid ?? '')
             await setDoc(userDocRef, newData).catch((error) => { throw error });
 
-            setLoading(false)
             window.location.reload();
         } catch (error) {
-            toast.error((error as FirebaseError).message)
+            console.error(error)
+            setLoading(false)
         }
     }
 

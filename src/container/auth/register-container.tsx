@@ -2,7 +2,6 @@
 import Image from 'next/image'
 
 import LogoMage from '~/assets/images/component/logo-mage.png'
-import { auth } from '@/utils/firebase'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
@@ -17,6 +16,10 @@ import Input from '@/components/form/input'
 import { Toaster } from 'react-hot-toast'
 import GoogleButton from '@/components/button/google-login'
 import { FirebaseError } from 'firebase/app'
+
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from '@/utils/firebase'
+import { updateProfile } from 'firebase/auth'
 
 const RegisterFormSchema = z
     .object({
@@ -71,7 +74,16 @@ export default function RegisterContainer() {
         try {
             const userCred = await createUserWithEmailAndPassword(auth, data.email, data.password).then((value) => value)
             sendEmailVerification(userCred.user)
-            if (!userCred) {
+            if (userCred) {
+                await setDoc(doc(db, "users", userCred.user.uid), {
+                    name: data.name,
+                    admin: false,
+                    competition: [],
+                });
+                updateProfile(userCred.user, {
+                    displayName: data.name,
+                })
+            } else {
                 throw 'Error while Sign In'
             }
         } catch (error) {
@@ -92,7 +104,7 @@ export default function RegisterContainer() {
                 <Image src={LogoMage} alt="logo" width={75} height={75} className="mx-auto" />
                 <h4 className="text-center">Register to Dashboard MAGE 9</h4>
                 <form className="mx-auto w-full space-y-5" onSubmit={handleSubmit(onSubmit)}>
-                    <Input type="name" id="name" name="name" label="Name" />
+                    <Input type="name" id="name" name="name" label="Username" />
                     <Input type="email" id="email" name="email" label="Email" />
                     <Input type="password" id="password" name="password" label="Your Password" />
                     <Input type="password" id="confirm" name="confirm" label="Confirm Password" />

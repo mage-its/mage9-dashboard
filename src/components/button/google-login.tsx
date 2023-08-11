@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { useRouter } from 'next/navigation'
@@ -9,6 +8,9 @@ import { toast } from 'react-hot-toast'
 import React, { useEffect } from 'react'
 import { auth } from '@/utils/firebase'
 import { FirebaseError } from 'firebase/app'
+
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from '@/utils/firebase'
 
 export default function GoogleButton() {
     const provider = new GoogleAuthProvider()
@@ -21,13 +23,21 @@ export default function GoogleButton() {
             toast.success('Login successful!')
             router.push('/')
         }
-    }, [user, router])
+    }, [])
 
     const LoginWithGoogle = async () => {
         try {
-            await signInWithPopup(auth, provider)
-            // const token = await result.user.getIdToken()
-            // console.log('TokenID', token)
+            let userCred = await signInWithPopup(auth, provider)
+            if (userCred) {
+                const docSnap = await getDoc(doc(db, "users", userCred.user.uid))
+                if (!docSnap.exists()) {
+                    await setDoc(doc(db, "users", userCred.user.uid), {
+                        name: userCred.user.displayName ?? 'User',
+                        admin: false,
+                        competition: [],
+                    })
+                }
+            }
         } catch (error) {
             toast.error((error as FirebaseError).message, {
                 position: 'top-center',

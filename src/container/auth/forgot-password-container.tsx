@@ -56,7 +56,6 @@ export default function ForgotRequestPasswordContainer() {
             <h2 className="text-xl text-sky-400">Multimedia and Game Event</h2>
             <section className="flex flex-col space-y-5 rounded-3xl bg-custom-grey p-10 sm:w-[450px]">
                 <Image src={LogoMage} alt="logo" width={75} height={75} className="mx-auto" />
-                <h4 className="text-center">Register to Dashboard MAGE 9</h4>
                 <form className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8" onSubmit={handleSubmit(onSubmit)}>
                     <h3 className="text-xl font-medium  text-white">Reset Password</h3>
                     <p className="text-sm text-white ">

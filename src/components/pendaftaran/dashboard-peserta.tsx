@@ -20,7 +20,7 @@ const DashboardPeserta = (props: COMPETITION_MODEL) => {
     const [namaKetua, setNamaKetua] = useState('')
     const [namaAnggota1, setNamaAnggota1] = useState('')
     const [namaAnggota2, setNamaAnggota2] = useState('')
-    const [days, hours, minutes, seconds] = useCountdown(new Date("2023-09-08"));
+    const [days, hours, minutes] = useCountdown(new Date("2023-09-08"));
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {

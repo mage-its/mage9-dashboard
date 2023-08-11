@@ -22,7 +22,7 @@ export default function Navbar({ toggle, toggled }: NavbarProps) {
 
     const [greeting, setGreeting] = useState<string>('')
     const [isLoading, setIsLoading] = useState(true)
-    const user_name = user?.displayName ?? ''
+    const user_name = user?.displayName ?? 'User'
     useEffect(() => {
 
         // user_name undefined kalo blm nunggu
@@ -38,6 +38,7 @@ export default function Navbar({ toggle, toggled }: NavbarProps) {
                         return 'Selamat malam! ' + user_name
                     }
                 }
+
                 setIsLoading(false)
                 setGreeting(getCurrentGreeting())
             }
