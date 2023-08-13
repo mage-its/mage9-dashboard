@@ -74,10 +74,9 @@ const HomeContainer = () => {
                 {isAdmin &&
                     <Link
                         className="mx-auto px-4 py-4 w-3/4 flex min-h-10 items-center text-center justify-center rounded-xl bg-custom-purple text-white hover:bg-custom-purple/80 hover:text-white hover:shadow-lg"
-                        href={''}
+                        href={'/admin'}
                     >
                         <h4>
-
                             DASHBOARD ADMIN
                         </h4>
                     </Link>

@@ -24,7 +24,6 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
     const [competitionOpen, setCompetitionOpen] = useState(true)
     const [workshopOpen, setWorkshopOpen] = useState(false)
     const [eventOpen, setEventOpen] = useState(true)
-    const [dashboardOpen, setDashboardOpen] = useState(true)
     const [isAdmin, setIsAdmin] = useState(false)
     const router = useRouter()
     const [signOut] = useSignOut(auth)
@@ -45,7 +44,6 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                     if (docSnap.data().admin) {
                         setIsAdmin(true)
                         setEventOpen(false)
-                        setDashboardOpen(true)
                     }
                 }
             }
@@ -97,7 +95,6 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                         <div
                             onClick={() => {
                                 setEventOpen(!eventOpen)
-                                setDashboardOpen(false)
                             }}
                             className="inline-flex items-center justify-between hover:bg-white/25"
                         >
@@ -186,9 +183,7 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                         <li className=" flex w-full flex-col gap-2.5">
                             <div
                                 onClick={() => {
-                                    setDashboardOpen(true)
-                                    setEventOpen(false)
-                                    // TODO
+                                    router.push('/admin')
                                 }}
                                 className="inline-flex items-center justify-between hover:bg-white/25"
                             >
@@ -196,27 +191,25 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                                     <BiUserCheck />
                                     Dashboard
                                 </div>
-                                <BsChevronDown className={merge(dashboardOpen ? 'rotate-0' : '-rotate-90', 'mr-5 ')} />
+                                {/* <BsChevronDown className='rotate-0 mr-5' /> */}
                             </div>
-                            {dashboardOpen && (
-                                <ul className="flex flex-col gap-2.5 pl-10">
-                                    {DASHBOARD_LINK.map((item, i) => {
-                                        return (
-                                            <li key={i}>
-                                                <Link
-                                                    href={item.href}
-                                                    className={merge(
-                                                        'hover:border-b-white',
-                                                        'border-b-2 border-b-transparent'
-                                                    )}
-                                                >
-                                                    <span>{item.label}</span>
-                                                </Link>
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
-                            )}
+                            <ul className="flex flex-col gap-2.5 pl-12">
+                                {DASHBOARD_LINK.map((item, i) => {
+                                    return (
+                                        <li key={i}>
+                                            <Link
+                                                href={item.href}
+                                                className={merge(
+                                                    'hover:border-b-white',
+                                                    'border-b-2 border-b-transparent'
+                                                )}
+                                            >
+                                                <span>{item.label}</span>
+                                            </Link>
+                                        </li>
+                                    )
+                                })}
+                            </ul>
                         </li>
                     }
                 </ul>

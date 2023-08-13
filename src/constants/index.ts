@@ -2,16 +2,24 @@ import { z } from 'zod'
 
 export const DASHBOARD_LINK = [
     {
+        label: 'Kelola Pengumuman',
+        href: '/admin/announcement',
+    },
+    {
         label: 'Verifikasi Tim',
-        href: '/',
+        href: '/admin/verifikasi',
     },
     {
-        label: 'Idk',
-        href: '/',
+        label: 'App Dev',
+        href: '/admin',
     },
     {
-        label: 'Idk',
-        href: '/',
+        label: 'Game Dev',
+        href: '/admin',
+    },
+    {
+        label: 'IoT',
+        href: '/admin',
     },
 ]
 
@@ -31,6 +39,7 @@ export const WORKSHOP_LINK = [
 ]
 
 export type COMPETITION_MODEL = {
+    id: number
     label: string
     href: string
     idCabang: string
@@ -40,6 +49,7 @@ export type COMPETITION_MODEL = {
 
 export const COMPETITIONS: COMPETITION_MODEL[] = [
     {
+        id: 1,
         label: 'App Dev',
         href: '/event/competition/appdev',
         idCabang: 'appdev',
@@ -47,6 +57,7 @@ export const COMPETITIONS: COMPETITION_MODEL[] = [
         logo: '/assets/images/logo/appdev.svg',
     },
     {
+        id: 2,
         label: 'Game Dev',
         href: '/event/competition/gamedev',
         idCabang: 'gamedev',
@@ -54,6 +65,7 @@ export const COMPETITIONS: COMPETITION_MODEL[] = [
         logo: '/assets/images/logo/gamedev.svg',
     },
     {
+        id: 3,
         label: 'IoT',
         href: '/event/competition/iot',
         idCabang: 'iot',
@@ -61,6 +73,7 @@ export const COMPETITIONS: COMPETITION_MODEL[] = [
         logo: '/assets/images/logo/iot.svg',
     },
     {
+        id: 4,
         label: 'Robotics',
         href: '/event/competition/robotic',
         idCabang: 'robotics',

@@ -16,3 +16,10 @@ export enum AnnouncementTarget {
     iot,
     robotics,
 }
+
+export enum BerkasType {
+    pembayaran,
+    ketua,
+    anggota1,
+    anggota2,
+}

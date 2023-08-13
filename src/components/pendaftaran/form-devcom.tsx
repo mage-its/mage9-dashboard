@@ -35,14 +35,6 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
             });
 
             // >>>>>>>>>>>>>>>> Store image stuff
-            // Identitas Ketua
-            const identitasKetuaFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasKetua/${data.identitasKetua[0].name}`)
-            await uploadBytes(identitasKetuaFolderRef, data.identitasKetua[0]).then((snapshot) => {
-                return getDownloadURL(snapshot.ref);
-            }).then((url) => {
-                data.identitasKetua = url
-            }).catch((error) => { throw error })
-
             // Bukti Pembayaran
             const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/buktiPembayaran/${data.buktiPembayaran[0].name}`)
             await uploadBytes(buktiPembayaranFolderRef, data.buktiPembayaran[0]).then((snapshot) => {
@@ -51,10 +43,18 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                 data.buktiPembayaran = url
             }).catch((error) => { throw error })
 
+            // Identitas Ketua
+            const identitasKetuaFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasKetua/${data.identitasKetua[0].name}`)
+            await uploadBytes(identitasKetuaFolderRef, data.identitasKetua[0]).then((snapshot) => {
+                return getDownloadURL(snapshot.ref);
+            }).then((url) => {
+                data.identitasKetua = url
+            }).catch((error) => { throw error })
+
             // Anggota 1
             if (data.identitasAnggota1.length > 0 && data.namaAnggota1 != '') {
-                const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasAnggota1/${data.identitasAnggota1[0].name}`)
-                await uploadBytes(buktiPembayaranFolderRef, data.identitasAnggota1[0]).then((snapshot) => {
+                const buktiAnggota1FolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasAnggota1/${data.identitasAnggota1[0].name}`)
+                await uploadBytes(buktiAnggota1FolderRef, data.identitasAnggota1[0]).then((snapshot) => {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
                     data.identitasAnggota1 = url
@@ -66,8 +66,8 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
 
             // Anggota 2
             if (data.identitasAnggota2.length > 0 && data.namaAnggota2 != '') {
-                const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasAnggota2/${data.identitasAnggota2[0].name}`)
-                await uploadBytes(buktiPembayaranFolderRef, data.identitasAnggota2[0]).then((snapshot) => {
+                const buktiAnggota2FolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasAnggota2/${data.identitasAnggota2[0].name}`)
+                await uploadBytes(buktiAnggota2FolderRef, data.identitasAnggota2[0]).then((snapshot) => {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
                     data.identitasAnggota2 = url
@@ -84,6 +84,10 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                 anggota1Verified: StatusBerkas.verify,
                 anggota2Verified: StatusBerkas.verify,
                 pembayaranVerified: StatusBerkas.verify,
+                time: new Date().getTime(),
+                timVerified: false,
+                idCabang: props.idCabang,
+                tahap: 0
             }
 
             const userDocRef = doc(db, props.idCabang, auth.currentUser?.uid ?? '')

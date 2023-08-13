@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { COMPETITION_MODEL } from '@/constants'
 import { DownloadGuidebookButton } from '../button/download-guidebook'
-import { StatusBerkas } from '@/utils/enum'
+import { BerkasType, StatusBerkas } from '@/utils/enum'
 import { StatusBerkasComponent } from './status-berkas'
 import { doc, getDoc } from 'firebase/firestore'
 import { auth, db } from '@/utils/firebase'
@@ -16,11 +16,16 @@ const DashboardPeserta = (props: COMPETITION_MODEL) => {
     const [statusAnggota1, setStatusAnggota1] = useState(StatusBerkas.verify)
     const [statusAnggota2, setStatusAnggota2] = useState(StatusBerkas.verify)
     const [statusPembayaran, setStatusPembayaran] = useState(StatusBerkas.verify)
-    const [namaTim, setnamaTim] = useState('')
+    const [namaTim, setNamaTim] = useState('')
     const [namaKetua, setNamaKetua] = useState('')
     const [namaAnggota1, setNamaAnggota1] = useState('')
     const [namaAnggota2, setNamaAnggota2] = useState('')
+    const [messagePembayaran, setMessagePembayaran] = useState('')
+    const [messageKetua, setMessageKetua] = useState('')
+    const [messageAnggota1, setMessageAnggota1] = useState('')
+    const [messageAnggota2, setMessageAnggota2] = useState('')
     const [days, hours, minutes] = useCountdown(new Date("2023-09-08"));
+    const [teamId, setTeamId] = useState('')
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -34,10 +39,17 @@ const DashboardPeserta = (props: COMPETITION_MODEL) => {
                     setStatusAnggota2(docSnap.data().anggota2Verified)
                     setStatusPembayaran(docSnap.data().pembayaranVerified)
 
-                    setnamaTim(docSnap.data().namaTim)
+                    setNamaTim(docSnap.data().namaTim)
                     setNamaKetua(docSnap.data().namaKetua)
                     setNamaAnggota1(docSnap.data().namaAnggota1)
                     setNamaAnggota2(docSnap.data().namaAnggota2)
+
+                    setMessagePembayaran(docSnap.data().pembayaranDeniedMessage)
+                    setMessageKetua(docSnap.data().ketuaDeniedMessage)
+                    setMessageAnggota1(docSnap.data().anggota1DeniedMessage)
+                    setMessageAnggota2(docSnap.data().anggota2DeniedMessage)
+
+                    setTeamId(user.uid)
 
                     setLoading(false)
                 }
@@ -46,7 +58,6 @@ const DashboardPeserta = (props: COMPETITION_MODEL) => {
 
         return () => unsubscribe();
     }, []);
-
 
     return (
         loading ? (
@@ -116,14 +127,46 @@ const DashboardPeserta = (props: COMPETITION_MODEL) => {
                     <div className='bg-gray-800/70 rounded-xl p-4 h-min'>
                         <h3>Berkas Pendaftaran</h3>
                         <hr className='my-2 border-white/50' />
-                        <StatusBerkasComponent nama='Berkas Ketua' status={statusKetua} message='' />
+                        <StatusBerkasComponent
+                            nama='Berkas Pembayaran'
+                            status={statusPembayaran}
+                            message={messagePembayaran}
+                            acceptFile='.jpg, .jpeg, .png, .pdf, .raw'
+                            berkasType={BerkasType.pembayaran}
+                            idCabang={props.idCabang}
+                            teamId={teamId}
+                        />
+                        <StatusBerkasComponent
+                            nama='Berkas Ketua'
+                            status={statusKetua}
+                            message={messageKetua}
+                            acceptFile='.zip, .rar'
+                            berkasType={BerkasType.ketua}
+                            idCabang={props.idCabang}
+                            teamId={teamId}
+                        />
                         {namaAnggota1 &&
-                            <StatusBerkasComponent nama='Berkas Anggota 1' status={statusAnggota1} message='' />
+                            <StatusBerkasComponent
+                                nama='Berkas Anggota 1'
+                                status={statusAnggota1}
+                                message={messageAnggota1}
+                                acceptFile='.zip, .rar'
+                                berkasType={BerkasType.anggota1}
+                                idCabang={props.idCabang}
+                                teamId={teamId}
+                            />
                         }
                         {namaAnggota2 &&
-                            <StatusBerkasComponent nama='Berkas Anggota 2' status={statusAnggota2} message='' />
+                            <StatusBerkasComponent
+                                nama='Berkas Anggota 2'
+                                status={statusAnggota2}
+                                message={messageAnggota2}
+                                acceptFile='.zip, .rar'
+                                berkasType={BerkasType.anggota2}
+                                idCabang={props.idCabang}
+                                teamId={teamId}
+                            />
                         }
-                        <StatusBerkasComponent nama='Berkas Pembayaran' status={statusPembayaran} message='' />
                     </div>
                 </div>
             </section>
