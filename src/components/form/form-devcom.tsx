@@ -11,6 +11,7 @@ import { toast } from 'react-hot-toast'
 import Image from 'next/image'
 import { DownloadGuidebookButton } from '../button/download-guidebook'
 import { StatusBerkas } from '@/utils/enum'
+import idCabangToLabel from '@/utils/idCabangToLabel'
 
 export default function FormDevCom(props: COMPETITION_MODEL) {
 
@@ -36,7 +37,7 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
 
             // >>>>>>>>>>>>>>>> Store image stuff
             // Bukti Pembayaran
-            const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/buktiPembayaran/${data.buktiPembayaran[0].name}`)
+            const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/${idCabangToLabel(props.idCabang) + '_' + data.namaTim}_Bukti Pembayaran.${data.buktiPembayaran[0].name.split('.').pop()}`)
             await uploadBytes(buktiPembayaranFolderRef, data.buktiPembayaran[0]).then((snapshot) => {
                 return getDownloadURL(snapshot.ref);
             }).then((url) => {
@@ -44,7 +45,7 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
             }).catch((error) => { throw error })
 
             // Identitas Ketua
-            const identitasKetuaFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasKetua/${data.identitasKetua[0].name}`)
+            const identitasKetuaFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/${idCabangToLabel(props.idCabang) + '_' + data.namaTim}_Berkas Ketua.${data.identitasKetua[0].name.split('.').pop()}`)
             await uploadBytes(identitasKetuaFolderRef, data.identitasKetua[0]).then((snapshot) => {
                 return getDownloadURL(snapshot.ref);
             }).then((url) => {
@@ -53,7 +54,7 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
 
             // Anggota 1
             if (data.identitasAnggota1.length > 0 && data.namaAnggota1 != '') {
-                const buktiAnggota1FolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasAnggota1/${data.identitasAnggota1[0].name}`)
+                const buktiAnggota1FolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/${idCabangToLabel(props.idCabang) + '_' + data.namaTim}_Berkas Anggota 1.${data.identitasAnggota1[0].name.split('.').pop()}`)
                 await uploadBytes(buktiAnggota1FolderRef, data.identitasAnggota1[0]).then((snapshot) => {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
@@ -66,7 +67,7 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
 
             // Anggota 2
             if (data.identitasAnggota2.length > 0 && data.namaAnggota2 != '') {
-                const buktiAnggota2FolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/identitasAnggota2/${data.identitasAnggota2[0].name}`)
+                const buktiAnggota2FolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/${idCabangToLabel(props.idCabang) + '_' + data.namaTim}_Berkas Anggota 2.${data.identitasAnggota2[0].name.split('.').pop()}`)
                 await uploadBytes(buktiAnggota2FolderRef, data.identitasAnggota2[0]).then((snapshot) => {
                     return getDownloadURL(snapshot.ref);
                 }).then((url) => {
@@ -87,7 +88,8 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                 time: new Date().getTime(),
                 timVerified: false,
                 idCabang: props.idCabang,
-                tahap: 0
+                tahap: 0,
+                email: auth.currentUser?.email,
             }
 
             const userDocRef = doc(db, props.idCabang, auth.currentUser?.uid ?? '')
@@ -145,11 +147,11 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                             {...register('kategori', { required: true })}
                         >
                             {props.idCabang == 'iot' ? (
-                                <option value="umum">Umum</option>
+                                <option value="Umum">Umum</option>
                             ) : (
                                 <>
-                                    <option value="mahasiswa">Mahasiswa</option>
-                                    <option value="siswa">Siswa</option>
+                                    <option value="Mahasiswa">Mahasiswa</option>
+                                    <option value="Siswa">Siswa</option>
                                 </>
                             )}
                         </select>

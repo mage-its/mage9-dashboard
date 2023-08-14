@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from '@/utils/firebase'
+import Link from 'next/link'
 
 interface TeamCountCardProps {
     label: string
@@ -26,7 +27,9 @@ const TeamCountCard = (props: TeamCountCardProps) => {
             <div className='flex items-end gap-2 pt-2'>
                 <h1>{loading ? '...' : count}</h1>
                 <p>tim</p>
-                <button className='ml-auto rounded-xl mt-2 py-1 px-6 bg-custom-purple/30'>Lihat</button>
+                <Link className='ml-auto rounded-xl mt-2 py-1 px-6 bg-custom-purple/30' href={`/admin/${props.idCabang}`}>
+                    Lihat
+                </Link>
             </div>
         </div>
     )

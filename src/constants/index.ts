@@ -1,25 +1,29 @@
 import { z } from 'zod'
 
 export const DASHBOARD_LINK = [
-    {
-        label: 'Kelola Pengumuman',
-        href: '/admin/announcement',
-    },
+    // {
+    //     label: 'Kelola Pengumuman',
+    //     href: '/admin/announcement',
+    // },
     {
         label: 'Verifikasi Tim',
         href: '/admin/verifikasi',
     },
     {
         label: 'App Dev',
-        href: '/admin',
+        href: '/admin/appdev',
     },
     {
         label: 'Game Dev',
-        href: '/admin',
+        href: '/admin/gamedev',
     },
     {
         label: 'IoT',
-        href: '/admin',
+        href: '/admin/iot',
+    },
+    {
+        label: 'Robotics',
+        href: '/admin/robotics',
     },
 ]
 

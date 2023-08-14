@@ -1,3 +1,4 @@
+import idCabangToLabel from '@/utils/idCabangToLabel'
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore'
 import React from 'react'
 
@@ -12,7 +13,7 @@ const StatusTeamCard = (props: StatusTeamCardProps) => {
             <p>
                 {props.teamDoc.data().namaTim}
             </p>
-            <h4 className='ml-auto text-white/20'>{props.teamDoc.data().idCabang}</h4>
+            <h4 className='ml-auto text-white/20'>{idCabangToLabel(props.teamDoc.data().idCabang)} | {props.teamDoc.data().kategori}</h4>
         </button>
     )
 }

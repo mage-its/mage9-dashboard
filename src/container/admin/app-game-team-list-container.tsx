@@ -1,74 +1,61 @@
 'use client'
 import StatusTeamCard from '@/components/card/status-team-card'
 import LoadingComponent from '@/components/layout/loading'
-import { COMPETITIONS } from '@/constants'
+import { COMPETITION_MODEL } from '@/constants'
 import { db } from '@/utils/firebase'
 import { DocumentData, QueryDocumentSnapshot, collection, getDocs } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
-import TeamDetailAdminContainer from './team-detail-admin-container'
 import { BsChevronDown } from 'react-icons/bs'
+import TeamDetailAdminContainer from './team-detail-admin-container'
 
-const VerifikasiContainer = () => {
+interface TeamListContainerProps {
+    compe: COMPETITION_MODEL
+}
+
+const AppGameTeamListContainer = (props: TeamListContainerProps) => {
     const [tab, setTab] = useState(0)
     const [loading, setLoading] = useState(true)
-    const [pending, setPending] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>[]>([])
-    const [verified, setVerified] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>[]>([])
-    const [openDetail, setOpenDetail] = useState(false)
+    const [siswa, setSiswa] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>[]>([])
+    const [mahasiswa, setMahasiswa] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>[]>([])
     const [detailItem, setDetailItem] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>>()
-    const [triggerRefresh, setTriggerRefresh] = useState(false)
+    const [openDetail, setOpenDetail] = useState(false)
 
     useEffect(() => {
         setLoading(true)
-        const pending: QueryDocumentSnapshot<DocumentData, DocumentData>[] = []
-        const verified: QueryDocumentSnapshot<DocumentData, DocumentData>[] = []
-        getDocs(collection(db, COMPETITIONS[0].idCabang)).then((querySnapshot) => {
+        const siswa: QueryDocumentSnapshot<DocumentData, DocumentData>[] = []
+        const mahasiswa: QueryDocumentSnapshot<DocumentData, DocumentData>[] = []
+        getDocs(collection(db, props.compe.idCabang)).then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                doc.data().timVerified ? verified.push(doc) : pending.push(doc)
+                doc.data().kategori == 'Mahasiswa' ? mahasiswa.push(doc) : siswa.push(doc)
             });
-            getDocs(collection(db, COMPETITIONS[1].idCabang)).then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    doc.data().timVerified ? verified.push(doc) : pending.push(doc)
-                });
-                getDocs(collection(db, COMPETITIONS[2].idCabang)).then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        doc.data().timVerified ? verified.push(doc) : pending.push(doc)
-                    });
-                    getDocs(collection(db, COMPETITIONS[3].idCabang)).then((querySnapshot) => {
-                        querySnapshot.forEach((doc) => {
-                            doc.data().timVerified ? verified.push(doc) : pending.push(doc)
-                        });
-                        setPending(pending)
-                        setVerified(verified)
-                        setLoading(false)
-                    })
-                })
-            })
+            setSiswa(siswa)
+            setMahasiswa(mahasiswa)
+            setLoading(false)
         })
-    }, [triggerRefresh])
+    }, [])
 
     return (
         <div className='p-4'>
+
             <div className='grid grid-cols-2 gap-4 mb-4'>
                 <button onClick={() => {
                     setTab(0)
-                    setOpenDetail(false)
                 }}
                     className={`flex justify-end items-center p-2 rounded-full flex-1 ${tab == 0 && 'bg-custom-blue/80'} text-center`}
                 >
-                    <h4 className='mx-auto'>Pending</h4>
+                    <h4 className='mx-auto'>Siswa</h4>
                     <p className=' bg-custom-blue-dark/50 rounded-full h-7 min-w-[1.75rem] flex items-center justify-center'>
-                        {loading ? '...' : pending.length}
+                        {loading ? '...' : siswa.length}
                     </p>
                 </button>
                 <button onClick={() => {
                     setTab(1)
-                    setOpenDetail(false)
                 }}
                     className={`flex justify-end items-center p-2 rounded-full flex-1 ${tab == 1 && 'bg-custom-blue/80'} text-center`}
                 >
-                    <h4 className='mx-auto'>Verified</h4>
+                    <h4 className='mx-auto'>Mahasiswa</h4>
                     <p className=' bg-custom-blue-dark/50 rounded-full h-7 min-w-[1.75rem] flex items-center justify-center'>
-                        {loading ? '...' : verified.length}
+                        {loading ? '...' : mahasiswa.length}
                     </p>
                 </button>
             </div>
@@ -80,7 +67,7 @@ const VerifikasiContainer = () => {
                     {tab == 0 && (
                         !openDetail ?
                             <div className='pt-4 grid gap-4'>
-                                {pending.map((item) => (
+                                {siswa.map((item) => (
                                     <StatusTeamCard
                                         key={item.id + item.data().idCabang}
                                         teamDoc={item}
@@ -97,7 +84,6 @@ const VerifikasiContainer = () => {
                                     className='mb-4 flex items-center gap-2 bg-custom-blue-dark/50 py-1 px-2 rounded-full'
                                     onClick={() => {
                                         setOpenDetail(false)
-                                        setTriggerRefresh(!triggerRefresh)
                                     }}
                                 >
                                     <BsChevronDown
@@ -111,7 +97,7 @@ const VerifikasiContainer = () => {
                     {tab == 1 && (
                         !openDetail ?
                             <div className='pt-4 grid gap-4'>
-                                {verified.map((item) => (
+                                {mahasiswa.map((item) => (
                                     <StatusTeamCard
                                         key={item.id + item.data().idCabang}
                                         teamDoc={item}
@@ -128,7 +114,6 @@ const VerifikasiContainer = () => {
                                     className='mb-4 flex items-center gap-2 bg-custom-blue-dark/50 py-1 px-2 rounded-full'
                                     onClick={() => {
                                         setOpenDetail(false)
-                                        setTriggerRefresh(!triggerRefresh)
                                     }}
                                 >
                                     <BsChevronDown
@@ -145,4 +130,4 @@ const VerifikasiContainer = () => {
     )
 }
 
-export default VerifikasiContainer
+export default AppGameTeamListContainer

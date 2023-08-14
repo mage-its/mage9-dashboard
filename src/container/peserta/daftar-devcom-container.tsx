@@ -1,13 +1,13 @@
 'use client'
-import FormDevCom from '@/components/pendaftaran/form-devcom'
+import FormDevCom from '@/components/form/form-devcom'
 import React, { useEffect, useState } from 'react'
 import { auth, db } from '@/utils/firebase'
 import { doc, getDoc } from 'firebase/firestore'
 import Loading from '@/app/loading'
-import DashboardPeserta from '../../components/pendaftaran/dashboard-peserta'
+import DashboardPeserta from './dashboard-peserta'
 import { COMPETITION_MODEL } from '@/constants'
 
-export default function DevComPage(props: COMPETITION_MODEL) {
+export default function DaftarDevComContainer(props: COMPETITION_MODEL) {
     const [isLoading, setIsLoading] = useState(true);
     const [isRegistered, setIsRegistered] = useState(false);
 
