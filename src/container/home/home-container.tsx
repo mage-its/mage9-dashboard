@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { auth, db } from '@/utils/firebase'
 import Link from 'next/link'
+import DeadlineReminderCard from '@/components/card/deadline-reminder-card'
 
 const HomeContainer = () => {
     const [loading, setLoading] = useState(true)
@@ -58,6 +59,9 @@ const HomeContainer = () => {
         ) : (
             <div className='pb-10'>
                 <section className="flex flex-col items-center justify-center gap-10 py-10">
+                    <div className='w-3/4'>
+                        <DeadlineReminderCard label='Penutupan Pendaftaran DevCom' date='2023-09-08' />
+                    </div>
                     <div className=" min-h-[15rem] w-3/4 rounded-lg bg-custom-blue/50 overflow-hidden">
                         <div className="bg-custom-purple p-2.5">
                             <h1 className="text-center text-xl uppercase">Announcement</h1 >

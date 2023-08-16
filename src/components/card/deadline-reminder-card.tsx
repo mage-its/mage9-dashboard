@@ -1,12 +1,17 @@
 import React from 'react'
 import { useCountdown } from '@/hooks/useCountdown';
 
-const DeadlineReminderCard = () => {
-    const [days, hours, minutes] = useCountdown(new Date("2023-09-08"));
+interface DeadlineReminderCardProps {
+    label: string,
+    date: string,
+}
+
+const DeadlineReminderCard = (props: DeadlineReminderCardProps) => {
+    const [days, hours, minutes] = useCountdown(new Date(props.date));
 
     return (
         <div className='bg-gray-800/70 rounded-xl p-4 h-min flex gap-4 flex-col md:flex-row justify-center md:gap-10'>
-            <h3 className='basis-1/3 my-auto text-center'>Deadline Pengumpulan Proposal</h3>
+            <h3 className='basis-1/3 my-auto text-center'>{props.label}</h3>
             <div className='basis-1/3 h-40 min-h-full flex flex-col'>
                 <div className='flex-1 flex justify-evenly items-center md:gap-5'>
                     <div className='bg-gray-400/20 px-2 py-4 rounded-2xl text-center w-20 min-w-min'>
