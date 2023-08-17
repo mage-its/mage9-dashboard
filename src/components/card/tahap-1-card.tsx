@@ -11,6 +11,7 @@ import idCabangToLabel from '@/utils/idCabangToLabel'
 import { db, storage } from '@/utils/firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { StatusBerkas } from '@/utils/enum'
 
 const ProposalScheme = z.object({
     berkas: z.any().refine((value) => value.length > 0, { message: 'Harap masukkan berkas!' }),
@@ -62,7 +63,7 @@ const Tahap1Card = (props: Tahap1CardProps) => {
         getDoc(docRef).then((docSnap) => {
             if (docSnap.exists()) {
                 setUploadTime(new Date(docSnap.data().timeTahap1))
-                setIsBayar(docSnap.data().buktiPembayaran)
+                setIsBayar(docSnap.data().timVerified)
             }
         });
 
@@ -122,7 +123,7 @@ const Tahap1Card = (props: Tahap1CardProps) => {
                         </form>
                     </FormProvider>
                     {!isBayar &&
-                        <p className='mt-2 text-yellow-400'>Proposal hanya dapat diunggah setelah mengunggah bukti pembayaran!</p>
+                        <p className='mt-2 text-yellow-400'>Proposal hanya dapat diunggah setelah semua berkas terverifikasi!</p>
                     }
                     {!isNaN(uploadTime?.getTime() ?? NaN) && isBayar &&
                         <p className='mt-2 text-emerald-400'>Terunggah pada {uploadTime?.toString().substring(0, uploadTime?.toString().indexOf('GMT') - 1)}</p>
