@@ -57,7 +57,17 @@ const HomeContainer = () => {
         loading ? (
             <LoadingComponent />
         ) : (
-            <div className='pb-10'>
+            <div className='pt-10'>
+                {isAdmin &&
+                    <Link
+                        className="mx-auto px-4 py-4 w-3/4 flex min-h-10 items-center text-center justify-center rounded-xl bg-custom-purple text-white hover:bg-custom-purple/80 hover:text-white hover:shadow-lg"
+                        href={'/admin'}
+                    >
+                        <h1>
+                            DASHBOARD ADMIN
+                        </h1>
+                    </Link>
+                }
                 <section className="flex flex-col items-center justify-center gap-10 py-10">
                     <div className='w-3/4'>
                         <DeadlineReminderCard label='Penutupan Pendaftaran DevCom' date='2023-09-08' />
@@ -75,16 +85,6 @@ const HomeContainer = () => {
                         <MyEvent list={events} />
                     </div>
                 </section >
-                {isAdmin &&
-                    <Link
-                        className="mx-auto px-4 py-4 w-3/4 flex min-h-10 items-center text-center justify-center rounded-xl bg-custom-purple text-white hover:bg-custom-purple/80 hover:text-white hover:shadow-lg"
-                        href={'/admin'}
-                    >
-                        <h4>
-                            DASHBOARD ADMIN
-                        </h4>
-                    </Link>
-                }
             </div>
         )
     )

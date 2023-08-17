@@ -42,7 +42,6 @@ export const StatusBerkasComponent = (props: StatusBerkasComponentProps) => {
     const onSubmit = async (data: RevisiBerkasType) => {
         setUploading(true)
         try {
-            setTimeout(() => { throw 'Haiya error' }, 2000)
             switch (props.berkasType) {
                 case BerkasType.pembayaran:
                     {
@@ -132,7 +131,7 @@ export const StatusBerkasComponent = (props: StatusBerkasComponentProps) => {
             </div>
             {status == StatusBerkas.upload &&
                 <>
-                    <p className='py-2 text-gray-300'>Ketentuan berkas dapat dilihat di Alur Pendaftaran dan Ketentuan Umum guidebook.</p>
+                    <p className='py-2 text-gray-300'>{props.berkasType == BerkasType.pembayaran ? 'Bukti pembayaran' : 'Ketentuan berkas dapat dilihat di Alur Pendaftaran dan Ketentuan Umum guidebook.'}</p>
                     <FormProvider {...methods}>
                         <form onSubmit={methods.handleSubmit(onSubmit)} className='grid gap-4 lg:grid-flow-col'>
                             <Input

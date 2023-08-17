@@ -1,4 +1,5 @@
 import SetStatusBerkasCard from '@/components/card/set-status-berkas-card'
+import Tahap1CardAdmin from '@/components/card/tahap-1-card-admin'
 import { BerkasType } from '@/utils/enum'
 import idCabangToLabel from '@/utils/idCabangToLabel'
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore'
@@ -19,46 +20,46 @@ const TeamDetailAdminContainer = (props: TeamDetailContainerProps) => {
                 <div className='mt-4 grid grid-cols-2 gap-4'>
                     <div>
                         <h4 className='font-bold'>Cabang Perlombaan</h4>
-                        <p> {idCabangToLabel(props.teamDoc.data().idCabang)} </p>
+                        <p className='text-gray-300'> {idCabangToLabel(props.teamDoc.data().idCabang)} </p>
                     </div>
 
                     <div>
                         <h4 className='font-bold'>Kategori</h4>
-                        <p> {props.teamDoc.data().kategori} </p>
+                        <p className='text-gray-300'> {props.teamDoc.data().kategori} </p>
                     </div>
 
                     <div>
                         <h4 className='font-bold'>Nama Tim</h4>
-                        <p> {props.teamDoc.data().namaTim} </p>
+                        <p className='text-gray-300'> {props.teamDoc.data().namaTim} </p>
                     </div>
 
                     <div>
                         <h4 className='font-bold'>Nama Ketua</h4>
-                        <p> {props.teamDoc.data().namaKetua} </p>
+                        <p className='text-gray-300'> {props.teamDoc.data().namaKetua} </p>
                     </div>
 
                     {props.teamDoc.data().namaAnggota1 &&
                         <div>
                             <h4 className='font-bold'>Nama Anggota1</h4>
-                            <p> {props.teamDoc.data().namaAnggota1} </p>
+                            <p className='text-gray-300'> {props.teamDoc.data().namaAnggota1} </p>
                         </div>
                     }
 
                     {props.teamDoc.data().namaAnggota2 &&
                         <div>
                             <h4 className='font-bold'>Nama Anggota2</h4>
-                            <p> {props.teamDoc.data().namaAnggota2} </p>
+                            <p className='text-gray-300'> {props.teamDoc.data().namaAnggota2} </p>
                         </div>
                     }
 
                     <div>
                         <h4 className='font-bold'>Asal Kota</h4>
-                        <p> {props.teamDoc.data().asalKota} </p>
+                        <p className='text-gray-300'> {props.teamDoc.data().asalKota} </p>
                     </div>
 
                     <div>
                         <h4 className='font-bold'>Asal Instansi</h4>
-                        <p> {props.teamDoc.data().asalInstansi} </p>
+                        <p className='text-gray-300'> {props.teamDoc.data().asalInstansi} </p>
                     </div>
                 </div>
 
@@ -68,17 +69,17 @@ const TeamDetailAdminContainer = (props: TeamDetailContainerProps) => {
                 <div className='mt-4 grid grid-cols-2 gap-4'>
                     <div>
                         <h4 className='font-bold'>Email</h4>
-                        <p> {props.teamDoc.data().email} </p>
+                        <p className='text-gray-300'> {props.teamDoc.data().email} </p>
                     </div>
 
                     <div>
                         <h4 className='font-bold'>Line</h4>
-                        <p> {props.teamDoc.data().lineKetua} </p>
+                        <p className='text-gray-300'> {props.teamDoc.data().lineKetua} </p>
                     </div>
 
                     <div>
                         <h4 className='font-bold'>Whatsapp</h4>
-                        <p>
+                        <p className='text-gray-300'>
                             <Link href={`https://wa.me/${props.teamDoc.data().waKetua.replace(/^0/, '62')}`} target='_blank' rel='noreferrer noopener'>
                                 {props.teamDoc.data().waKetua}
                             </Link>
@@ -86,7 +87,7 @@ const TeamDetailAdminContainer = (props: TeamDetailContainerProps) => {
                     </div>
                 </div>
             </div>
-            <div className='bg-gray-800/70 rounded-xl p-4 h-min'>
+            <div className='bg-gray-800/70 rounded-xl p-4'>
                 <h4>Berkas Pendaftaran</h4>
                 <hr className='my-2 border-white/50' />
 
@@ -134,6 +135,7 @@ const TeamDetailAdminContainer = (props: TeamDetailContainerProps) => {
                     </>
                 }
             </div>
+            <Tahap1CardAdmin idCabang={props.teamDoc.data().idCabang} teamId={props.teamDoc.id} />
         </div>
     )
 }

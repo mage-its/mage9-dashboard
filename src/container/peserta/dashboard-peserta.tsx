@@ -9,6 +9,7 @@ import LoadingComponent from '../../components/layout/loading'
 import DeadlineReminderCard from '../../components/card/deadline-reminder-card'
 import DetailTim from '@/components/pendaftaran/detail-tim'
 import NominalBayarCard from '@/components/card/nominal-bayar-card'
+import Tahap1Card from '@/components/card/tahap-1-card'
 
 const DashboardPeserta = (props: COMPETITION_MODEL) => {
     const [loading, setLoading] = useState(true)
@@ -55,6 +56,8 @@ const DashboardPeserta = (props: COMPETITION_MODEL) => {
                 {!teamDoc!.data().buktiPembayaran &&
                     <NominalBayarCard idCabang={props.idCabang} kategori={teamDoc!.data().kategori} />
                 }
+
+                <Tahap1Card idCabang={props.idCabang} teamId={teamDoc!.id} teamName={teamDoc!.data().namaTim} />
 
                 <DetailTim teamDoc={teamDoc!} idCabang={props.idCabang} />
             </section>
