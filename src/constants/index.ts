@@ -98,10 +98,12 @@ export const DaftarLombaScheme = z.object({
     alamatInstansi: z.string(),
     asalInfo: z.string().nonempty('Harap masukkan Asal Info!'),
     asalKota: z.string().nonempty('Harap masukkan Asal Kota!'),
-    identitasKetua: z.any().refine((value) => value.length > 0, { message: 'Harap masukkan identitas ketua!' }),
+    identitasKetua: z.any().optional(),
+    // .refine((value) => value.length > 0, { message: 'Harap masukkan identitas ketua!' }),
     identitasAnggota1: z.any().optional(),
     identitasAnggota2: z.any().optional(),
-    buktiPembayaran: z.any().refine((value) => value.length > 0, { message: 'Harap masukkan bukti pembayaran!' }),
+    buktiPembayaran: z.any().optional(),
+    // .refine((value) => value.length > 0, { message: 'Harap masukkan bukti pembayaran!' }),
 })
 
 export type DaftarLombaType = z.infer<typeof DaftarLombaScheme>

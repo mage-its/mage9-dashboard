@@ -4,14 +4,12 @@ import { COMPETITION_MODEL, DaftarLombaScheme, DaftarLombaType, InitialFormValue
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { auth, db, storage } from '@/utils/firebase'
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { auth, db } from '@/utils/firebase'
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { toast } from 'react-hot-toast'
 import Image from 'next/image'
 import { DownloadGuidebookButton } from '../button/download-guidebook'
 import { StatusBerkas } from '@/utils/enum'
-import idCabangToLabel from '@/utils/idCabangToLabel'
 
 export default function FormDevCom(props: COMPETITION_MODEL) {
 
@@ -35,56 +33,56 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                 competition: temp
             });
 
-            // >>>>>>>>>>>>>>>> Store image stuff
-            // Bukti Pembayaran
-            const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/${idCabangToLabel(props.idCabang) + '_' + data.namaTim}_Bukti Pembayaran.${data.buktiPembayaran[0].name.split('.').pop()}`)
-            await uploadBytes(buktiPembayaranFolderRef, data.buktiPembayaran[0]).then((snapshot) => {
-                return getDownloadURL(snapshot.ref);
-            }).then((url) => {
-                data.buktiPembayaran = url
-            }).catch((error) => { throw error })
+            // // >>>>>>>>>>>>>>>> Store image stuff
+            // // Bukti Pembayaran
+            // const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/${idCabangToLabel(props.idCabang) + '_' + data.namaTim}_Bukti Pembayaran.${data.buktiPembayaran[0].name.split('.').pop()}`)
+            // await uploadBytes(buktiPembayaranFolderRef, data.buktiPembayaran[0]).then((snapshot) => {
+            //     return getDownloadURL(snapshot.ref);
+            // }).then((url) => {
+            //     data.buktiPembayaran = url
+            // }).catch((error) => { throw error })
 
-            // Identitas Ketua
-            const identitasKetuaFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/${idCabangToLabel(props.idCabang) + '_' + data.namaTim}_Berkas Ketua.${data.identitasKetua[0].name.split('.').pop()}`)
-            await uploadBytes(identitasKetuaFolderRef, data.identitasKetua[0]).then((snapshot) => {
-                return getDownloadURL(snapshot.ref);
-            }).then((url) => {
-                data.identitasKetua = url
-            }).catch((error) => { throw error })
+            // // Identitas Ketua
+            // const identitasKetuaFolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/${idCabangToLabel(props.idCabang) + '_' + data.namaTim}_Berkas Ketua.${data.identitasKetua[0].name.split('.').pop()}`)
+            // await uploadBytes(identitasKetuaFolderRef, data.identitasKetua[0]).then((snapshot) => {
+            //     return getDownloadURL(snapshot.ref);
+            // }).then((url) => {
+            //     data.identitasKetua = url
+            // }).catch((error) => { throw error })
 
-            // Anggota 1
-            if (data.identitasAnggota1.length > 0 && data.namaAnggota1 != '') {
-                const buktiAnggota1FolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/${idCabangToLabel(props.idCabang) + '_' + data.namaTim}_Berkas Anggota 1.${data.identitasAnggota1[0].name.split('.').pop()}`)
-                await uploadBytes(buktiAnggota1FolderRef, data.identitasAnggota1[0]).then((snapshot) => {
-                    return getDownloadURL(snapshot.ref);
-                }).then((url) => {
-                    data.identitasAnggota1 = url
-                }).catch((error) => { throw error })
-            } else {
-                data.identitasAnggota1 = ''
-                data.namaAnggota1 = ''
-            }
+            // // Anggota 1
+            // if (data.identitasAnggota1.length > 0 && data.namaAnggota1 != '') {
+            //     const buktiAnggota1FolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/${idCabangToLabel(props.idCabang) + '_' + data.namaTim}_Berkas Anggota 1.${data.identitasAnggota1[0].name.split('.').pop()}`)
+            //     await uploadBytes(buktiAnggota1FolderRef, data.identitasAnggota1[0]).then((snapshot) => {
+            //         return getDownloadURL(snapshot.ref);
+            //     }).then((url) => {
+            //         data.identitasAnggota1 = url
+            //     }).catch((error) => { throw error })
+            // } else {
+            //     data.identitasAnggota1 = ''
+            //     data.namaAnggota1 = ''
+            // }
 
-            // Anggota 2
-            if (data.identitasAnggota2.length > 0 && data.namaAnggota2 != '') {
-                const buktiAnggota2FolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/${idCabangToLabel(props.idCabang) + '_' + data.namaTim}_Berkas Anggota 2.${data.identitasAnggota2[0].name.split('.').pop()}`)
-                await uploadBytes(buktiAnggota2FolderRef, data.identitasAnggota2[0]).then((snapshot) => {
-                    return getDownloadURL(snapshot.ref);
-                }).then((url) => {
-                    data.identitasAnggota2 = url
-                }).catch((error) => { throw error })
-            } else {
-                data.identitasAnggota2 = ''
-                data.namaAnggota2 = ''
-            }
+            // // Anggota 2
+            // if (data.identitasAnggota2.length > 0 && data.namaAnggota2 != '') {
+            //     const buktiAnggota2FolderRef = ref(storage, `${props.idCabang}/${auth.currentUser?.uid}/${idCabangToLabel(props.idCabang) + '_' + data.namaTim}_Berkas Anggota 2.${data.identitasAnggota2[0].name.split('.').pop()}`)
+            //     await uploadBytes(buktiAnggota2FolderRef, data.identitasAnggota2[0]).then((snapshot) => {
+            //         return getDownloadURL(snapshot.ref);
+            //     }).then((url) => {
+            //         data.identitasAnggota2 = url
+            //     }).catch((error) => { throw error })
+            // } else {
+            //     data.identitasAnggota2 = ''
+            //     data.namaAnggota2 = ''
+            // }
 
             // >>>>>>>>>>>>>>>> Store string stuff
             const newData = {
                 ...data,
-                ketuaVerified: StatusBerkas.verify,
-                anggota1Verified: StatusBerkas.verify,
-                anggota2Verified: StatusBerkas.verify,
-                pembayaranVerified: StatusBerkas.verify,
+                ketuaVerified: StatusBerkas.upload,
+                anggota1Verified: StatusBerkas.upload,
+                anggota2Verified: StatusBerkas.upload,
+                pembayaranVerified: StatusBerkas.upload,
                 time: new Date().getTime(),
                 timVerified: false,
                 idCabang: props.idCabang,
@@ -181,11 +179,11 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                         <Input id="alamatInstansi" label="Alamat Instansi" className="md:col-span-2 w-full" />
                     </div>
                 </section>
-                <section className="md:grid md:grid-cols-2 md:gap-x-5 md:gap-y-1">
+                <section className="md:grid md:grid-cols-2 md:gap-x-5 md:gap-y-1 pb-10">
                     <h5 className='col-span-2 text-center font-bold mb-2'>
-                        Ketentuan berkas dapat dilihat di Alur Pendaftaran dan Ketentuan Umum guidebook.
+                        Pastikan bahwa biodata yang diisikan sudah benar, panitia tidak bertanggung jawab dalam kesalahan penulisan biodata calon peserta.
                     </h5>
-                    <Input
+                    {/* <Input
                         id="identitasKetua"
                         name="identitasKetua"
                         type="file"
@@ -216,7 +214,7 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                         label="Bukti Pembayaran *"
                         accept=".jpg, .jpeg, .png, .pdf, .raw"
                         className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
-                    />
+                    /> */}
                     {loading ? (
                         <button
                             className=" col-span-2 mx-auto mt-10 flex h-10 w-full items-center justify-center gap-5 rounded bg-custom-purple/80 text-white shadow-lg"

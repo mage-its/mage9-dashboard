@@ -46,6 +46,7 @@ const DetailTim = (props: DetailTimProps) => {
                     berkasType={BerkasType.pembayaran}
                     idCabang={props.idCabang}
                     teamId={props.teamDoc.id!}
+                    teamName={props.teamDoc.data().namaTim}
                 />
                 <StatusBerkasComponent
                     nama='Berkas Ketua'
@@ -55,6 +56,7 @@ const DetailTim = (props: DetailTimProps) => {
                     berkasType={BerkasType.ketua}
                     idCabang={props.idCabang}
                     teamId={props.teamDoc.id!}
+                    teamName={props.teamDoc.data().namaTim}
                 />
                 {props.teamDoc.data().namaAnggota1 &&
                     <StatusBerkasComponent
@@ -65,6 +67,7 @@ const DetailTim = (props: DetailTimProps) => {
                         berkasType={BerkasType.anggota1}
                         idCabang={props.idCabang}
                         teamId={props.teamDoc.id!}
+                        teamName={props.teamDoc.data().namaTim}
                     />
                 }
                 {props.teamDoc.data().namaAnggota2 &&
@@ -76,6 +79,7 @@ const DetailTim = (props: DetailTimProps) => {
                         berkasType={BerkasType.anggota2}
                         idCabang={props.idCabang}
                         teamId={props.teamDoc.id!}
+                        teamName={props.teamDoc.data().namaTim}
                     />
                 }
             </div>

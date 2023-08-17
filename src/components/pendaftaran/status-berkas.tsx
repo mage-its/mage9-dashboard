@@ -12,6 +12,7 @@ import { db, storage } from '@/utils/firebase'
 import { toast } from 'react-hot-toast'
 import { FirebaseError } from 'firebase/app'
 import { doc, updateDoc } from 'firebase/firestore'
+import idCabangToLabel from '@/utils/idCabangToLabel'
 
 interface StatusBerkasComponentProps {
     nama: string
@@ -21,6 +22,7 @@ interface StatusBerkasComponentProps {
     berkasType: BerkasType
     idCabang: string
     teamId: string
+    teamName: string
 }
 
 const RevisiBerkasScheme = z.object({
@@ -40,10 +42,11 @@ export const StatusBerkasComponent = (props: StatusBerkasComponentProps) => {
     const onSubmit = async (data: RevisiBerkasType) => {
         setUploading(true)
         try {
+            setTimeout(() => { throw 'Haiya error' }, 2000)
             switch (props.berkasType) {
                 case BerkasType.pembayaran:
                     {
-                        const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${props.teamId}/buktiPembayaran/${data.berkas[0].name}`)
+                        const buktiPembayaranFolderRef = ref(storage, `${props.idCabang}/${props.teamId}/${idCabangToLabel(props.idCabang) + '_' + props.teamName}_Bukti Pembayaran.${data.berkas[0].name.split('.').pop()}`)
                         await uploadBytes(buktiPembayaranFolderRef, data.berkas[0]).then((snapshot) => {
                             return getDownloadURL(snapshot.ref);
                         }).then(async (url) => {
@@ -58,7 +61,7 @@ export const StatusBerkasComponent = (props: StatusBerkasComponentProps) => {
 
                 case BerkasType.ketua:
                     {
-                        const identitasKetuaFolderRef = ref(storage, `${props.idCabang}/${props.teamId}/identitasKetua/${data.berkas[0].name}`)
+                        const identitasKetuaFolderRef = ref(storage, `${props.idCabang}/${props.teamId}/${idCabangToLabel(props.idCabang) + '_' + props.teamName}_Berkas Ketua.${data.berkas[0].name.split('.').pop()}`)
                         await uploadBytes(identitasKetuaFolderRef, data.berkas[0]).then((snapshot) => {
                             return getDownloadURL(snapshot.ref);
                         }).then(async (url) => {
@@ -73,7 +76,7 @@ export const StatusBerkasComponent = (props: StatusBerkasComponentProps) => {
 
                 case BerkasType.anggota1:
                     {
-                        const buktiAnggota1FolderRef = ref(storage, `${props.idCabang}/${props.teamId}/identitasAnggota1/${data.berkas[0].name}`)
+                        const buktiAnggota1FolderRef = ref(storage, `${props.idCabang}/${props.teamId}/${idCabangToLabel(props.idCabang) + '_' + props.teamName}_Berkas Anggota 1.${data.berkas[0].name.split('.').pop()}`)
                         await uploadBytes(buktiAnggota1FolderRef, data.berkas[0]).then((snapshot) => {
                             return getDownloadURL(snapshot.ref);
                         }).then(async (url) => {
@@ -88,7 +91,7 @@ export const StatusBerkasComponent = (props: StatusBerkasComponentProps) => {
 
                 case BerkasType.anggota2:
                     {
-                        const buktiAnggota2FolderRef = ref(storage, `${props.idCabang}/${props.teamId}/identitasAnggota2/${data.berkas[0].name}`)
+                        const buktiAnggota2FolderRef = ref(storage, `${props.idCabang}/${props.teamId}/${idCabangToLabel(props.idCabang) + '_' + props.teamName}_Berkas Anggota 2.${data.berkas[0].name.split('.').pop()}`)
                         await uploadBytes(buktiAnggota2FolderRef, data.berkas[0]).then((snapshot) => {
                             return getDownloadURL(snapshot.ref);
                         }).then(async (url) => {
@@ -127,6 +130,37 @@ export const StatusBerkasComponent = (props: StatusBerkasComponentProps) => {
                     <p className=' text-yellow-400'>Dalam Verifikasi</p>
                 }
             </div>
+            {status == StatusBerkas.upload &&
+                <>
+                    <p className='py-2 text-gray-300'>Ketentuan berkas dapat dilihat di Alur Pendaftaran dan Ketentuan Umum guidebook.</p>
+                    <FormProvider {...methods}>
+                        <form onSubmit={methods.handleSubmit(onSubmit)} className='grid gap-4 lg:grid-flow-col'>
+                            <Input
+                                id="berkas"
+                                name="berkas"
+                                type="file"
+                                accept={props.acceptFile}
+                                className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
+                            />
+                            <button
+                                className=" p-3 flex items-center justify-center rounded bg-gray-400 text-white hover:bg-gray-400/80 hover:text-white hover:shadow-lg"
+                                type="submit"
+                            >
+                                {uploading ?
+                                    <svg className="animate-spin rounded-full h-5 w-5 border-t-4 border-gray-700" viewBox="0 0 24 24">
+                                    </svg>
+                                    :
+                                    <Image
+                                        alt='Upload'
+                                        priority={true}
+                                        src={UploadIcon}
+                                    />
+                                }
+                            </button>
+                        </form>
+                    </FormProvider>
+                </>
+            }
             {status == StatusBerkas.denied &&
                 <>
                     <p className='py-2 text-gray-300'>{props.message || 'Terjadi error selama proses verifikasi'}</p>

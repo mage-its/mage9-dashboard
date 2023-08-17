@@ -119,9 +119,9 @@ const SetStatusBerkasCard = (props: SetStatusBerkasCardProps) => {
 
     return (
         <div className='flex flex-col md:flex-row gap-2 items-start mt-2'>
-            <Link href={props.berkasLink} target='_blank' className=' bg-custom-purple py-2 px-4 rounded-full'>
-                Lihat Disini
-            </Link>
+            {status != StatusBerkas.upload && <Link href={props.berkasLink} target='_blank' className=' bg-custom-purple py-2 px-4 rounded-full'>
+                Lihat di sini
+            </Link>}
             {loading ? (
                 <div className='my-auto mx-auto'>
                     <svg className="animate-spin rounded-full h-5 w-5 border-t-4 border-blue-500" viewBox="0 0 24 24" />
@@ -140,7 +140,10 @@ const SetStatusBerkasCard = (props: SetStatusBerkasCardProps) => {
                         Diterima
                     </div>}
                     {status == StatusBerkas.denied && <div className='md:ml-auto bg-red-400/50 py-2 px-4 rounded-full text-red-950'>
-                        Ditolak, tunggu peserta kirim ulang
+                        Ditolak, tunggu peserta mengirim ulang
+                    </div>}
+                    {status == StatusBerkas.upload && <div className='bg-gray-400/50 py-2 px-4 rounded-full text-gray-200'>
+                        Tunggu peserta untuk mengirim berkas
                     </div>}
                 </>
             )}

@@ -2,6 +2,7 @@ export enum StatusBerkas {
     verify,
     accepted,
     denied,
+    upload,
 }
 
 export enum AnnouncementType {

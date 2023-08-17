@@ -8,6 +8,7 @@ import { auth, db } from '@/utils/firebase'
 import LoadingComponent from '../../components/layout/loading'
 import DeadlineReminderCard from '../../components/card/deadline-reminder-card'
 import DetailTim from '@/components/pendaftaran/detail-tim'
+import NominalBayarCard from '@/components/card/nominal-bayar-card'
 
 const DashboardPeserta = (props: COMPETITION_MODEL) => {
     const [loading, setLoading] = useState(true)
@@ -50,6 +51,10 @@ const DashboardPeserta = (props: COMPETITION_MODEL) => {
                 </div>
 
                 <DeadlineReminderCard label='Deadline Pengumpulan Proposal' date='2023-09-08' />
+
+                {!teamDoc!.data().buktiPembayaran &&
+                    <NominalBayarCard idCabang={props.idCabang} kategori={teamDoc!.data().kategori} />
+                }
 
                 <DetailTim teamDoc={teamDoc!} idCabang={props.idCabang} />
             </section>
