@@ -12,12 +12,12 @@ const StatusTeamCard = (props: StatusTeamCardProps) => {
     const getOverallTimStatus = (teamDoc: QueryDocumentSnapshot<DocumentData, DocumentData>) => {
         if (teamDoc.data().timVerified) return StatusBerkas.accepted
         if (
-            teamDoc.data().pembayaranVerified == StatusBerkas.upload ||
-            teamDoc.data().ketuaVerified == StatusBerkas.upload ||
-            (teamDoc.data().namaAnggota1 ? teamDoc.data().anggota1Verified == StatusBerkas.accepted : false) ||
-            (teamDoc.data().namaAnggota2 ? teamDoc.data().anggota2Verified == StatusBerkas.accepted : false)
-        ) return StatusBerkas.upload
-        return StatusBerkas.verify
+            teamDoc.data().pembayaranVerified == StatusBerkas.verify ||
+            teamDoc.data().ketuaVerified == StatusBerkas.verify ||
+            (teamDoc.data().namaAnggota1 ? teamDoc.data().anggota1Verified == StatusBerkas.verify : false) ||
+            (teamDoc.data().namaAnggota2 ? teamDoc.data().anggota2Verified == StatusBerkas.verify : false)
+        ) return StatusBerkas.verify
+        return StatusBerkas.upload
     }
     const teamStatus = getOverallTimStatus(props.teamDoc)
     return (

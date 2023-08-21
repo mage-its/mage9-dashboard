@@ -1,7 +1,6 @@
 import SetStatusBerkasCard from '@/components/card/set-status-berkas-card'
 import Tahap1CardAdmin from '@/components/card/tahap-1-card-admin'
 import { BerkasType } from '@/utils/enum'
-import idCabangToLabel from '@/utils/idCabangToLabel'
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore'
 import Link from 'next/link'
 import React from 'react'
