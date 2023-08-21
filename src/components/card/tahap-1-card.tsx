@@ -11,7 +11,6 @@ import idCabangToLabel from '@/utils/idCabangToLabel'
 import { db, storage } from '@/utils/firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
-import { StatusBerkas } from '@/utils/enum'
 
 const ProposalScheme = z.object({
     berkas: z.any().refine((value) => value.length > 0, { message: 'Harap masukkan berkas!' }),

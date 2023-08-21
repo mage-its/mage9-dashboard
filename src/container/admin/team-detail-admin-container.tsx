@@ -11,6 +11,7 @@ interface TeamDetailContainerProps {
 }
 
 const TeamDetailAdminContainer = (props: TeamDetailContainerProps) => {
+    const uploadTime = new Date(props.teamDoc.data().time)
     return (
         <div className='grid gap-4 md:grid-cols-2'>
             <div className='bg-gray-800/70 rounded-xl p-4 h-min'>
@@ -18,7 +19,7 @@ const TeamDetailAdminContainer = (props: TeamDetailContainerProps) => {
                 <hr className='my-2 border-white/50' />
 
                 <div className='mt-4 grid grid-cols-2 gap-4'>
-                    <div>
+                    {/* <div>
                         <h4 className='font-bold'>Cabang Perlombaan</h4>
                         <p className='text-gray-300'> {idCabangToLabel(props.teamDoc.data().idCabang)} </p>
                     </div>
@@ -26,6 +27,16 @@ const TeamDetailAdminContainer = (props: TeamDetailContainerProps) => {
                     <div>
                         <h4 className='font-bold'>Kategori</h4>
                         <p className='text-gray-300'> {props.teamDoc.data().kategori} </p>
+                    </div> */}
+
+                    <div>
+                        <h4 className='font-bold'>No Pendaftaran</h4>
+                        <p className='text-gray-300'> {props.teamDoc.data().timId} </p>
+                    </div>
+
+                    <div>
+                        <h4 className='font-bold'>Tanggal Pendaftaran</h4>
+                        <p className='text-gray-300'> {uploadTime?.toString().substring(0, uploadTime?.toString().indexOf('GMT') - 1)} </p>
                     </div>
 
                     <div>

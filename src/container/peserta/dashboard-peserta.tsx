@@ -54,7 +54,7 @@ const DashboardPeserta = (props: COMPETITION_MODEL) => {
                 <DeadlineReminderCard label='Deadline Pengumpulan Proposal' date='2023-09-08' />
 
                 {!teamDoc!.data().buktiPembayaran &&
-                    <NominalBayarCard idCabang={props.idCabang} kategori={teamDoc!.data().kategori} />
+                    <NominalBayarCard idCabang={props.idCabang} kategori={teamDoc!.data().kategori} teamId={teamDoc!.data().timId} />
                 }
 
                 <Tahap1Card idCabang={props.idCabang} teamId={teamDoc!.id} teamName={teamDoc!.data().namaTim} />

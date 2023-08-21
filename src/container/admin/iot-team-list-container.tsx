@@ -25,6 +25,9 @@ const IoTTeamListContainer = (props: TeamListContainerProps) => {
             querySnapshot.forEach((doc) => {
                 umum.push(doc)
             });
+            umum.sort((a, b) => {
+                return a.data().time < b.data().time ? -1 : 1
+            })
             setUmum(umum)
             setLoading(false)
         })

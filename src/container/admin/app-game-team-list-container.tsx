@@ -28,6 +28,12 @@ const AppGameTeamListContainer = (props: TeamListContainerProps) => {
             querySnapshot.forEach((doc) => {
                 doc.data().kategori == 'Mahasiswa' ? mahasiswa.push(doc) : siswa.push(doc)
             });
+            siswa.sort((a, b) => {
+                return a.data().time < b.data().time ? -1 : 1
+            })
+            mahasiswa.sort((a, b) => {
+                return a.data().time < b.data().time ? -1 : 1
+            })
             setSiswa(siswa)
             setMahasiswa(mahasiswa)
             setLoading(false)

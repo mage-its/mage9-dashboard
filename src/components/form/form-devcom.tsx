@@ -10,6 +10,7 @@ import { toast } from 'react-hot-toast'
 import Image from 'next/image'
 import { DownloadGuidebookButton } from '../button/download-guidebook'
 import { StatusBerkas } from '@/utils/enum'
+import teamDataToTeamId from '@/utils/teamDataToTeamId'
 
 export default function FormDevCom(props: COMPETITION_MODEL) {
 
@@ -76,6 +77,15 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
             //     data.namaAnggota2 = ''
             // }
 
+            // >>>>>>>>>>>>>>>> Set Team Id
+            const teamCounterRef = doc(db, 'teamCounter', props.idCabang + '_' + data.kategori)
+            const count = await getDoc(teamCounterRef).then((docSnap) => {
+                if (docSnap.exists()) {
+                    return (docSnap.data().last as number) + 1
+                }
+                return -1
+            })
+
             // >>>>>>>>>>>>>>>> Store string stuff
             const newData = {
                 ...data,
@@ -88,10 +98,15 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                 idCabang: props.idCabang,
                 tahap: 0,
                 email: auth.currentUser?.email,
+                timId: teamDataToTeamId(props.idCabang, data.kategori, count)
             }
 
             const userDocRef = doc(db, props.idCabang, auth.currentUser?.uid ?? '')
             await setDoc(userDocRef, newData).catch((error) => { throw error });
+
+            await updateDoc(teamCounterRef, {
+                last: count
+            })
 
             window.location.reload();
         } catch (error) {

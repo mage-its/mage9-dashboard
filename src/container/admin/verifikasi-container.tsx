@@ -37,6 +37,12 @@ const VerifikasiContainer = () => {
                         querySnapshot.forEach((doc) => {
                             doc.data().timVerified ? verified.push(doc) : pending.push(doc)
                         });
+                        pending.sort((a, b) => {
+                            return a.data().time < b.data().time ? -1 : 1
+                        })
+                        verified.sort((a, b) => {
+                            return a.data().time < b.data().time ? -1 : 1
+                        })
                         setPending(pending)
                         setVerified(verified)
                         setLoading(false)
