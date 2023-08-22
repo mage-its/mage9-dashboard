@@ -98,7 +98,8 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                 idCabang: props.idCabang,
                 tahap: 0,
                 email: auth.currentUser?.email,
-                timId: teamDataToTeamId(props.idCabang, data.kategori, count)
+                timId: teamDataToTeamId(props.idCabang, data.kategori, count),
+                isSpam: false,
             }
 
             const userDocRef = doc(db, props.idCabang, auth.currentUser?.uid ?? '')

@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '@/utils/firebase'
 import Link from 'next/link'
 
@@ -14,7 +14,8 @@ const TeamCountCard = (props: TeamCountCardProps) => {
     const [count, setCount] = useState(0)
 
     useEffect(() => {
-        getDocs(collection(db, props.idCabang)).then((querySnapshot) => {
+        const q = query(collection(db, props.idCabang), where('isSpam', '==', false));
+        getDocs(q).then((querySnapshot) => {
             setCount(querySnapshot.docs.length)
             setLoading(false)
         })

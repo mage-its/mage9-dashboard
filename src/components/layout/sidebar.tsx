@@ -189,7 +189,7 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                             >
                                 <div className="inline-flex h-full w-full items-center gap-2.5 p-2.5">
                                     <BiUserCheck />
-                                    Dashboard
+                                    Admin
                                 </div>
                                 {/* <BsChevronDown className='rotate-0 mr-5' /> */}
                             </div>

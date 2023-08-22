@@ -1,3 +1,4 @@
+import SetSpamCard from '@/components/card/set-spam-card'
 import SetStatusBerkasCard from '@/components/card/set-status-berkas-card'
 import Tahap1CardAdmin from '@/components/card/tahap-1-card-admin'
 import { BerkasType } from '@/utils/enum'
@@ -146,6 +147,7 @@ const TeamDetailAdminContainer = (props: TeamDetailContainerProps) => {
                 }
             </div>
             <Tahap1CardAdmin idCabang={props.teamDoc.data().idCabang} teamId={props.teamDoc.id} />
+            <SetSpamCard teamDoc={props.teamDoc} />
         </div>
     )
 }

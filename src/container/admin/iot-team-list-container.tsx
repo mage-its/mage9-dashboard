@@ -3,7 +3,7 @@ import StatusTeamCard from '@/components/card/status-team-card'
 import LoadingComponent from '@/components/layout/loading'
 import { COMPETITION_MODEL } from '@/constants'
 import { db } from '@/utils/firebase'
-import { DocumentData, QueryDocumentSnapshot, collection, getDocs } from 'firebase/firestore'
+import { DocumentData, QueryDocumentSnapshot, collection, getDocs, query, where } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { BsChevronDown } from 'react-icons/bs'
 import TeamDetailAdminContainer from './team-detail-admin-container'
@@ -21,7 +21,8 @@ const IoTTeamListContainer = (props: TeamListContainerProps) => {
     useEffect(() => {
         setLoading(true)
         const umum: QueryDocumentSnapshot<DocumentData, DocumentData>[] = []
-        getDocs(collection(db, props.compe.idCabang)).then((querySnapshot) => {
+        const q = query(collection(db, props.compe.idCabang), where('isSpam', '==', false));
+        getDocs(q).then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 umum.push(doc)
             });
