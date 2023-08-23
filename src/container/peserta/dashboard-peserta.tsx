@@ -10,6 +10,7 @@ import DeadlineReminderCard from '../../components/card/deadline-reminder-card'
 import DetailTim from '@/components/pendaftaran/detail-tim'
 import NominalBayarCard from '@/components/card/nominal-bayar-card'
 import Tahap1Card from '@/components/card/tahap-1-card'
+import { StatusBerkas } from '@/utils/enum'
 
 const DashboardPeserta = (props: COMPETITION_MODEL) => {
     const [loading, setLoading] = useState(true)
@@ -53,7 +54,7 @@ const DashboardPeserta = (props: COMPETITION_MODEL) => {
 
                 <DeadlineReminderCard label='Deadline Pengumpulan Proposal' date='2023-09-08' />
 
-                {!teamDoc!.data().buktiPembayaran &&
+                {(teamDoc!.data().pembayaranVerified == StatusBerkas.upload || teamDoc!.data().pembayaranVerified == StatusBerkas.denied) &&
                     <NominalBayarCard idCabang={props.idCabang} kategori={teamDoc!.data().kategori} teamId={teamDoc!.data().timId} />
                 }
 

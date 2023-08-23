@@ -19,8 +19,6 @@ const NominalBayarCard = (props: NominalBayarCardProps) => {
                 setBiaya(docSnap.data().biaya.slice(0, -3) + props.teamId.slice(-3))
             }
         })
-
-
     }, [])
 
 

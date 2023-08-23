@@ -1,3 +1,4 @@
+import NominalBayarCard from '@/components/card/nominal-bayar-card'
 import SetSpamCard from '@/components/card/set-spam-card'
 import SetStatusBerkasCard from '@/components/card/set-status-berkas-card'
 import Tahap1CardAdmin from '@/components/card/tahap-1-card-admin'
@@ -101,6 +102,9 @@ const TeamDetailAdminContainer = (props: TeamDetailContainerProps) => {
             <div className='bg-gray-800/70 rounded-xl p-4'>
                 <h4>Berkas Pendaftaran</h4>
                 <hr className='my-2 border-white/50' />
+
+                <h4 className='mt-6 font-bold'>Nominal yg harus dibayar</h4>
+                <NominalBayarCard idCabang={props.teamDoc.data().idCabang} kategori={props.teamDoc.data().kategori} teamId={props.teamDoc.data().timId} />
 
                 <h4 className='mt-6 font-bold'>Bukti Pembayaran</h4>
                 <SetStatusBerkasCard
