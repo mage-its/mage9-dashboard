@@ -7,6 +7,7 @@ import { DocumentData, QueryDocumentSnapshot, collection, getDocs, query, where 
 import React, { useEffect, useState } from 'react'
 import { BsChevronDown } from 'react-icons/bs'
 import TeamDetailAdminContainer from './team-detail-admin-container'
+import { useIsAdmin } from '@/utils/isAdmin'
 
 interface TeamListContainerProps {
     compe: COMPETITION_MODEL
@@ -17,6 +18,7 @@ const IoTTeamListContainer = (props: TeamListContainerProps) => {
     const [umum, setUmum] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>[]>([])
     const [detailItem, setDetailItem] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>>()
     const [openDetail, setOpenDetail] = useState(false)
+    const isAdmin = useIsAdmin()
 
     useEffect(() => {
         setLoading(true)
@@ -34,7 +36,7 @@ const IoTTeamListContainer = (props: TeamListContainerProps) => {
         })
     }, [])
 
-    return (
+    return isAdmin ? (
         <div className='p-4'>
             <div className='w-1/2 flex justify-end items-center p-2 rounded-full flex-1 bg-custom-blue/80 text-center mb-4'>
                 <h4 className='mx-auto'>Umum</h4>
@@ -76,7 +78,7 @@ const IoTTeamListContainer = (props: TeamListContainerProps) => {
                     </div>
             )}
         </div>
-    )
+    ) : null
 }
 
 export default IoTTeamListContainer

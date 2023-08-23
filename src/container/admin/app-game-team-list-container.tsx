@@ -7,6 +7,7 @@ import { DocumentData, QueryDocumentSnapshot, collection, getDocs, query, where 
 import React, { useEffect, useState } from 'react'
 import { BsChevronDown } from 'react-icons/bs'
 import TeamDetailAdminContainer from './team-detail-admin-container'
+import { useIsAdmin } from '@/utils/isAdmin'
 
 interface TeamListContainerProps {
     compe: COMPETITION_MODEL
@@ -19,6 +20,7 @@ const AppGameTeamListContainer = (props: TeamListContainerProps) => {
     const [mahasiswa, setMahasiswa] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>[]>([])
     const [detailItem, setDetailItem] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>>()
     const [openDetail, setOpenDetail] = useState(false)
+    const isAdmin = useIsAdmin()
 
     useEffect(() => {
         setLoading(true)
@@ -41,7 +43,7 @@ const AppGameTeamListContainer = (props: TeamListContainerProps) => {
         })
     }, [])
 
-    return (
+    return isAdmin ? (
         <div className='p-4'>
 
             <div className='grid grid-cols-2 gap-4 mb-4'>
@@ -134,7 +136,7 @@ const AppGameTeamListContainer = (props: TeamListContainerProps) => {
                 </>
             )}
         </div>
-    )
+    ) : null
 }
 
 export default AppGameTeamListContainer

@@ -7,6 +7,7 @@ import { DocumentData, QueryDocumentSnapshot, collection, getDocs } from 'fireba
 import React, { useEffect, useState } from 'react'
 import TeamDetailAdminContainer from './team-detail-admin-container'
 import { BsChevronDown } from 'react-icons/bs'
+import { useIsAdmin } from '@/utils/isAdmin'
 
 const VerifikasiContainer = () => {
     const [tab, setTab] = useState(0)
@@ -17,6 +18,7 @@ const VerifikasiContainer = () => {
     const [openDetail, setOpenDetail] = useState(false)
     const [detailItem, setDetailItem] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>>()
     const [triggerRefresh, setTriggerRefresh] = useState(false)
+    const isAdmin = useIsAdmin()
 
     useEffect(() => {
         setLoading(true)
@@ -71,7 +73,7 @@ const VerifikasiContainer = () => {
         })
     }, [triggerRefresh])
 
-    return (
+    return isAdmin ? (
         <div className='p-4'>
             <div className='grid grid-cols-2 md:grid-cols-3 gap-4 mb-4'>
                 <button onClick={() => {
@@ -209,7 +211,7 @@ const VerifikasiContainer = () => {
                 </>
             )}
         </div>
-    )
+    ) : null
 }
 
 export default VerifikasiContainer
