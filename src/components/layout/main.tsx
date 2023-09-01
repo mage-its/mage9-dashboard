@@ -24,7 +24,7 @@ const Main: React.FC<MainProps> = (props) => {
     }, [user, loading, router])
 
     return (
-        <main className="flex h-screen w-screen items-start justify-end overflow-x-hidden">
+        <main className="flex h-screen w-screen items-start justify-end overflow-x-hidden text-gray-50">
             <Sidebar showNavbar={showSidebar} toggle={setShowSidebar} toggled={showSidebar} />
             <div
                 className={merge(
