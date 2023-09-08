@@ -70,7 +70,7 @@ const HomeContainer = () => {
                 }
                 <section className="flex flex-col items-center justify-center gap-10 py-10">
                     <div className='w-3/4'>
-                        <DeadlineReminderCard label='Penutupan Pendaftaran DevCom' date='2023-09-08' />
+                        <DeadlineReminderCard label='Penutupan Pendaftaran DevCom' date='2023-09-29' />
                     </div>
                     <div className=" min-h-[15rem] w-3/4 rounded-lg bg-custom-blue/50 overflow-hidden">
                         <div className="bg-custom-purple p-2.5">
