@@ -5,7 +5,7 @@ import React from 'react'
 const VerifikasiPage = () => {
     return (
         <Main>
-            <VerifikasiContainer tabNumber={2} />
+            <VerifikasiContainer tabNumber={0} />
         </Main>
     )
 }

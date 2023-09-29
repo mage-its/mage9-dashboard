@@ -9,36 +9,36 @@ import { BsChevronDown } from 'react-icons/bs'
 import TeamDetailAdminContainer from './team-detail-admin-container'
 import { useIsAdmin } from '@/utils/isAdmin'
 
-interface TeamListContainerProps {
+interface RoboticsListContainerProps {
     compe: COMPETITION_MODEL
 }
 
-const AppGameTeamListContainer = (props: TeamListContainerProps) => {
+const RoboticsTeamListContainer = (props: RoboticsListContainerProps) => {
     const [tab, setTab] = useState(0)
     const [loading, setLoading] = useState(true)
-    const [siswa, setSiswa] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>[]>([])
-    const [mahasiswa, setMahasiswa] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>[]>([])
+    const [smp, setSmp] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>[]>([])
+    const [sma, setSma] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>[]>([])
     const [detailItem, setDetailItem] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>>()
     const [openDetail, setOpenDetail] = useState(false)
     const isAdmin = useIsAdmin()
 
     useEffect(() => {
         setLoading(true)
-        const siswa: QueryDocumentSnapshot<DocumentData, DocumentData>[] = []
-        const mahasiswa: QueryDocumentSnapshot<DocumentData, DocumentData>[] = []
+        const smp: QueryDocumentSnapshot<DocumentData, DocumentData>[] = []
+        const sma: QueryDocumentSnapshot<DocumentData, DocumentData>[] = []
         const q = query(collection(db, props.compe.idCabang), where('isSpam', '==', false), where('timVerified', '==', true));
         getDocs(q).then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                doc.data().kategori == 'Mahasiswa' ? mahasiswa.push(doc) : siswa.push(doc)
+                doc.data().kategori == 'SMA' ? sma.push(doc) : smp.push(doc)
             });
-            siswa.sort((a, b) => {
+            smp.sort((a, b) => {
                 return a.data().time < b.data().time ? -1 : 1
             })
-            mahasiswa.sort((a, b) => {
+            sma.sort((a, b) => {
                 return a.data().time < b.data().time ? -1 : 1
             })
-            setSiswa(siswa)
-            setMahasiswa(mahasiswa)
+            setSmp(smp)
+            setSma(sma)
             setLoading(false)
         })
     }, [])
@@ -52,9 +52,9 @@ const AppGameTeamListContainer = (props: TeamListContainerProps) => {
                 }}
                     className={`flex justify-end items-center p-2 rounded-full flex-1 ${tab == 0 && 'bg-custom-blue/80'} text-center`}
                 >
-                    <h4 className='mx-auto'>Siswa</h4>
+                    <h4 className='mx-auto'>SMP</h4>
                     <p className=' bg-custom-blue-dark/50 rounded-full h-7 min-w-[1.75rem] flex items-center justify-center'>
-                        {loading ? '...' : siswa.length}
+                        {loading ? '...' : smp.length}
                     </p>
                 </button>
                 <button onClick={() => {
@@ -62,9 +62,9 @@ const AppGameTeamListContainer = (props: TeamListContainerProps) => {
                 }}
                     className={`flex justify-end items-center p-2 rounded-full flex-1 ${tab == 1 && 'bg-custom-blue/80'} text-center`}
                 >
-                    <h4 className='mx-auto'>Mahasiswa</h4>
+                    <h4 className='mx-auto'>SMA</h4>
                     <p className=' bg-custom-blue-dark/50 rounded-full h-7 min-w-[1.75rem] flex items-center justify-center'>
-                        {loading ? '...' : mahasiswa.length}
+                        {loading ? '...' : sma.length}
                     </p>
                 </button>
             </div>
@@ -76,7 +76,7 @@ const AppGameTeamListContainer = (props: TeamListContainerProps) => {
                     {tab == 0 && (
                         !openDetail ?
                             <div className='pt-4 grid gap-4'>
-                                {siswa.map((item) => (
+                                {smp.map((item) => (
                                     <StatusTeamCard
                                         key={item.id + item.data().idCabang}
                                         teamDoc={item}
@@ -106,7 +106,7 @@ const AppGameTeamListContainer = (props: TeamListContainerProps) => {
                     {tab == 1 && (
                         !openDetail ?
                             <div className='pt-4 grid gap-4'>
-                                {mahasiswa.map((item) => (
+                                {sma.map((item) => (
                                     <StatusTeamCard
                                         key={item.id + item.data().idCabang}
                                         teamDoc={item}
@@ -139,4 +139,4 @@ const AppGameTeamListContainer = (props: TeamListContainerProps) => {
     ) : null
 }
 
-export default AppGameTeamListContainer
+export default RoboticsTeamListContainer

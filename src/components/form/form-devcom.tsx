@@ -1,6 +1,6 @@
 'use client'
 import Input from '@/components/form/input'
-import { COMPETITION_MODEL, DaftarLombaScheme, DaftarLombaType, InitialFormValue } from '@/constants'
+import { COMPETITIONS, COMPETITION_MODEL, DaftarLombaScheme, DaftarLombaType, InitialFormValue } from '@/constants'
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -79,6 +79,7 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
 
             // >>>>>>>>>>>>>>>> Set Team Id
             const teamCounterRef = doc(db, 'teamCounter', props.idCabang + '_' + data.kategori)
+            console.log(props.idCabang + '_' + data.kategori)
             const count = await getDoc(teamCounterRef).then((docSnap) => {
                 if (docSnap.exists()) {
                     return (docSnap.data().last as number) + 1
@@ -153,19 +154,32 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                 encType="multipart/form-data"
             >
                 <section className="grid h-full w-full gap-y-3 md:grid-cols-2 md:gap-x-5 md:gap-y-1">
-                    <div className="mx-auto flex w-full flex-col  ">
+                    <div className="mx-auto flex w-full flex-col">
                         <label htmlFor="kategori">Pilih Kategori: *</ label>
                         <select
                             id="kategori"
                             className="rounded border-gray-500 bg-gray-600"
                             {...register('kategori', { required: true })}
                         >
-                            {props.idCabang == 'iot' ? (
-                                <option value="Umum">Umum</option>
-                            ) : (
+                            {props.idCabang == COMPETITIONS[0].idCabang && (
                                 <>
                                     <option value="Mahasiswa">Mahasiswa</option>
                                     <option value="Siswa">Siswa</option>
+                                </>
+                            )}
+                            {props.idCabang == COMPETITIONS[1].idCabang && (
+                                <>
+                                    <option value="Mahasiswa">Mahasiswa</option>
+                                    <option value="Siswa">Siswa</option>
+                                </>
+                            )}
+                            {props.idCabang == COMPETITIONS[2].idCabang && (
+                                <option value="Umum">Umum</option>
+                            )}
+                            {props.idCabang == COMPETITIONS[3].idCabang && (
+                                <>
+                                    <option value="SMA">SMA</option>
+                                    <option value="SMP">SMP</option>
                                 </>
                             )}
                         </select>
@@ -189,6 +203,12 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                     <Input id="lineKetua" label="ID Line Ketua *" />
                     <Input id="namaAnggota1" label="Nama Anggota 1" />
                     <Input id="namaAnggota2" label="Nama Anggota 2" />
+                    {props.idCabang == COMPETITIONS[3].idCabang && (
+                        <>
+                            <Input id="namaPembimbing" label="Nama Pembimbing" />
+                            <Input id="waPembimbing" label="No HP Pembimbing" />
+                        </>
+                    )}
                     <Input id="asalKota" label="Asal Kota *" />
                     <Input id="asalInstansi" label="Asal Instansi *" />
                     <div className="md:col-span-2 w-full">

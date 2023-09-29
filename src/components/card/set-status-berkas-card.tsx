@@ -120,7 +120,7 @@ const SetStatusBerkasCard = (props: SetStatusBerkasCardProps) => {
     return (
         <div className='flex flex-col md:flex-row gap-2 items-start mt-2'>
             {status != StatusBerkas.upload && <Link href={props.berkasLink} target='_blank' className=' bg-custom-purple py-2 px-4 rounded-full'>
-                Lihat di sini
+                Unduh di sini
             </Link>}
             {loading ? (
                 <div className='my-auto mx-auto'>

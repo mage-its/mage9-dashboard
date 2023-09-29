@@ -10,7 +10,7 @@ const AdminContainer = () => {
 
     return isAdmin ? (
         <div className='flex flex-col gap-4 p-4'>
-            <h3>Peserta Perlombaan</h3>
+            <h3>Peserta Perlombaan (Verified Only)</h3>
             <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-4'>
                 {COMPETITIONS.map((compe) => <TeamCountCard key={compe.id} label={compe.label} idCabang={compe.idCabang} />)}
             </div>

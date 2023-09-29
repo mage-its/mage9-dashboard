@@ -29,7 +29,7 @@ const DeadlineReminderCard = (props: DeadlineReminderCardProps) => {
                         <p>Menit</p>
                     </div>
                 </div>
-                <h4 className='text-center'>29 September 2023</h4>
+                <h4 className='text-center'>3 Oktober 2023</h4>
             </div>
         </div>
     )

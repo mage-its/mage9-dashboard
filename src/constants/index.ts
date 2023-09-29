@@ -104,6 +104,8 @@ export const DaftarLombaScheme = z.object({
     identitasAnggota2: z.any().optional(),
     buktiPembayaran: z.any().optional(),
     // .refine((value) => value.length > 0, { message: 'Harap masukkan bukti pembayaran!' }),
+    namaPembimbing: z.any().optional(),
+    waPembimbing: z.any().optional(),
 })
 
 export type DaftarLombaType = z.infer<typeof DaftarLombaScheme>
