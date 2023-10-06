@@ -24,6 +24,37 @@ const Tahap2CardAdmin = (props: Tahap2CardAdminProps) => {
         });
     }, [])
 
+    const accept = async () => {
+        // setLoading(true)
+        // const teamDocRef = doc(db, props.idCabang, props.teamId)
+
+        // try {
+        //     await updateDoc(teamDocRef, {
+        //         tahap: 1
+        //     })
+        //     setStatus(StatusBerkas.accepted)
+        //     setTahap(1)
+        // } catch (error) {
+        //     toast.error((error as FirebaseError).message)
+        // }
+        // setLoading(false)
+    }
+
+    const deny = async () => {
+        // setLoading(true)
+        // const teamDocRef = doc(db, props.idCabang, props.teamId)
+
+        // try {
+        //     await updateDoc(teamDocRef, {
+        //         isStop: true
+        //     })
+        //     setStatus(StatusBerkas.denied)
+        //     setIsStop(true)
+        // } catch (error) {
+        //     toast.error((error as FirebaseError).message)
+        // }
+        // setLoading(false)
+    }
 
     return (
         <div className='bg-gray-800/70 rounded-xl p-4 h-min'>
@@ -43,10 +74,10 @@ const Tahap2CardAdmin = (props: Tahap2CardAdminProps) => {
                                             Download di sini
                                         </Link>
                                         <div className='ml-auto'>
-                                            <button onClick={() => { }} className='bg-emerald-400 py-2 px-4 rounded-full text-emerald-900'>
+                                            <button onClick={() => accept()} className='bg-emerald-400 py-2 px-4 rounded-full text-emerald-900'>
                                                 Lolos Tahap 1
                                             </button>
-                                            <button onClick={() => { }} className='ml-4 bg-red-400 py-2 px-4 rounded-full text-red-900'>
+                                            <button onClick={() => deny()} className='ml-4 bg-red-400 py-2 px-4 rounded-full text-red-900'>
                                                 Tolak Tahap 1
                                             </button>
                                         </div>

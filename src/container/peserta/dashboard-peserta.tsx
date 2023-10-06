@@ -52,7 +52,7 @@ const DashboardPeserta = (props: COMPETITION_MODEL) => {
                     <DownloadGuidebookButton link={props.guidebook} />
                 </div>
 
-                <DeadlineReminderCard label='Deadline Pengumpulan Link Devcom' date='2023-11-03' />
+                <DeadlineReminderCard label='Deadline Pengumpulan Link Devcom' date='2023-11-03' dateString='3 November 2023' />
 
                 {(teamDoc!.data().pembayaranVerified == StatusBerkas.upload || teamDoc!.data().pembayaranVerified == StatusBerkas.denied) &&
                     <NominalBayarCard idCabang={props.idCabang} kategori={teamDoc!.data().kategori} teamId={teamDoc!.data().timId} />
