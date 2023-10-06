@@ -13,7 +13,8 @@ const AdminContainer = () => {
         <div className='flex flex-col gap-4 p-4'>
             <h3>Peserta Perlombaan (Verified Only)</h3>
             <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-4'>
-                {COMPETITIONS.map((compe) => <TeamCountCard key={compe.id} label={compe.label} idCabang={compe.idCabang} />)}
+                {/* {COMPETITIONS.map((compe) => <TeamCountCard key={compe.id} label={compe.label} idCabang={compe.idCabang} />)} */}
+                <TeamCountCard label={COMPETITIONS[3].label} idCabang={COMPETITIONS[3].idCabang} />
             </div>
 
             <hr />
