@@ -4,6 +4,7 @@ import { useCountdown } from '@/hooks/useCountdown';
 interface DeadlineReminderCardProps {
     label: string,
     date: string,
+    dateString: string,
 }
 
 const DeadlineReminderCard = (props: DeadlineReminderCardProps) => {
@@ -29,7 +30,7 @@ const DeadlineReminderCard = (props: DeadlineReminderCardProps) => {
                         <p>Menit</p>
                     </div>
                 </div>
-                <h4 className='text-center'>3 Oktober 2023</h4>
+                <h4 className='text-center'>{props.dateString}</h4>
             </div>
         </div>
     )

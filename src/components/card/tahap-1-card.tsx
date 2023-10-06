@@ -22,6 +22,8 @@ interface Tahap1CardProps {
     idCabang: string
     teamId: string
     teamName: string
+    tahap: number
+    isStop: boolean
 }
 
 const Tahap1Card = (props: Tahap1CardProps) => {
@@ -73,65 +75,90 @@ const Tahap1Card = (props: Tahap1CardProps) => {
         <div className='bg-gray-800/70 rounded-xl p-4 h-min mt-6'>
             <h3 className='text-center'>Tahap 1</h3>
             <hr className='my-2 border-white/50' />
-            <div className='grid gap-4 md:grid-cols-2 mt-4'>
-                <div className='bg-gray-400/20 p-4 rounded-xl'>
-                    <p className='font-bold'>Template proposal</p>
-                    <p className='mt-2 mb-5 text-gray-300'>
-                        Template proposal dapat diunduh pada link berikut:
-                    </p>
-                    <a
-                        className="px-4 py-2 text-center rounded-xl bg-custom-purple text-white hover:bg-custom-purple/80 hover:text-white hover:shadow-lg"
-                        href={`/assets/template/${props.idCabang}.docx`}
-                        target='_blank'
-                        rel='noreferrer'
-                        download={`Template Proposal ${idCabangToLabel(props.idCabang)}`}
-                    >
-                        Unduh di sini!
-                    </a>
-                </div>
-                <div className='bg-gray-400/20 p-4 rounded-xl'>
-                    <p className='font-bold'>Unggah Proposal</p>
-                    <p className='mt-2 text-gray-300'>Proposal disimpan dalam bentuk pdf dengan format penamaan file:</p>
-                    <p className='mb-2 text-gray-300'>MAGE 9_Tahap 1_{idCabangToLabel(props.idCabang)}_[Nama Tim].pdf</p>
-                    <FormProvider {...methods}>
-                        <form onSubmit={handleSubmit(onSubmit)} className='grid gap-4 lg:grid-flow-col'>
-                            <Input
-                                id="berkas"
-                                name="berkas"
-                                type="file"
-                                accept='.pdf'
-                                className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
-                                disabled={!isBayar}
-                            />
-                            <button
-                                className=" p-3 flex items-center justify-center rounded bg-gray-400 text-white hover:bg-gray-400/80 hover:text-white hover:shadow-lg"
-                                type="submit"
-                                disabled={!isBayar}
+
+            {props.tahap > 0 || props.isStop ? (
+                <>
+                    {props.isStop ?
+                        <div className='mt-4 bg-gray-400/20 p-4 rounded-xl'>
+
+                            <h3 className='mt-2 text-red-400 text-center'>Mohon Maaf :(</h3>
+                            <h5 className='mt-2 text-red-400 text-center'>Anda belum dinyatakan lolos tahap 1</h5>
+                            <hr className='my-2 border-white/50' />
+                        </div>
+                        :
+                        <div className='mt-4 bg-gray-400/20 p-4 rounded-xl'>
+
+                            <h1 className='mt-2 text-emerald-400 text-center'>Selamat!</h1>
+                            <h3 className='mt-2 text-emerald-400 text-center'>Anda dinyatakan lolos tahap 1!</h3>
+                            <hr className='my-2 border-white/50' />
+                            <p>Silahkan mempersiapkan untuk tahap selanjutnya</p>
+                        </div>
+                    }
+                </>
+
+            ) : (
+                <>
+                    <div className='grid gap-4 md:grid-cols-2 mt-4'>
+                        <div className='bg-gray-400/20 p-4 rounded-xl'>
+                            <p className='font-bold'>Template proposal</p>
+                            <p className='mt-2 mb-5 text-gray-300'>
+                                Template proposal dapat diunduh pada link berikut:
+                            </p>
+                            <a
+                                className="px-4 py-2 text-center rounded-xl bg-custom-purple text-white hover:bg-custom-purple/80 hover:text-white hover:shadow-lg"
+                                href={`/assets/template/${props.idCabang}.docx`}
+                                target='_blank'
+                                rel='noreferrer'
+                                download={`Template Proposal ${idCabangToLabel(props.idCabang)}`}
                             >
-                                {uploading ?
-                                    <svg className="animate-spin rounded-full h-5 w-5 border-t-4 border-gray-700" viewBox="0 0 24 24">
-                                    </svg>
-                                    :
-                                    <Image
-                                        alt='Upload'
-                                        priority={true}
-                                        src={UploadIcon}
+                                Unduh di sini!
+                            </a>
+                        </div>
+                        <div className='bg-gray-400/20 p-4 rounded-xl'>
+                            <p className='font-bold'>Unggah Proposal</p>
+                            <p className='mt-2 text-gray-300'>Proposal disimpan dalam bentuk pdf dengan format penamaan file:</p>
+                            <p className='mb-2 text-gray-300'>MAGE 9_Tahap 1_{idCabangToLabel(props.idCabang)}_[Nama Tim].pdf</p>
+                            <FormProvider {...methods}>
+                                <form onSubmit={handleSubmit(onSubmit)} className='grid gap-4 lg:grid-flow-col'>
+                                    <Input
+                                        id="berkas"
+                                        name="berkas"
+                                        type="file"
+                                        accept='.pdf'
+                                        className="rounded border border-dashed border-white bg-white/50 file:px-4 file:py-2"
+                                        disabled={!isBayar}
                                     />
-                                }
-                            </button>
-                        </form>
-                    </FormProvider>
-                    {!isBayar &&
-                        <p className='mt-2 text-yellow-400'>Proposal hanya dapat diunggah setelah semua berkas terverifikasi!</p>
-                    }
-                    {!isNaN(uploadTime?.getTime() ?? NaN) && isBayar &&
-                        <p className='mt-2 text-emerald-400'>Terunggah pada {uploadTime?.toString().substring(0, uploadTime?.toString().indexOf('GMT') - 1)}</p>
-                    }
-                </div>
-            </div>
-            <p className='text-gray-500 px-1 pt-4'>
-                *Peserta diperbolehkan mengumpulkan atau mengganti proposal hingga batas waktu yang ditentukan, tetapi hanya submisi terakhir yang akan dinilai.
-            </p>
+                                    <button
+                                        className=" p-3 flex items-center justify-center rounded bg-gray-400 text-white hover:bg-gray-400/80 hover:text-white hover:shadow-lg"
+                                        type="submit"
+                                        disabled={!isBayar}
+                                    >
+                                        {uploading ?
+                                            <svg className="animate-spin rounded-full h-5 w-5 border-t-4 border-gray-700" viewBox="0 0 24 24">
+                                            </svg>
+                                            :
+                                            <Image
+                                                alt='Upload'
+                                                priority={true}
+                                                src={UploadIcon}
+                                            />
+                                        }
+                                    </button>
+                                </form>
+                            </FormProvider>
+                            {!isBayar &&
+                                <p className='mt-2 text-yellow-400'>Proposal hanya dapat diunggah setelah semua berkas terverifikasi!</p>
+                            }
+                            {!isNaN(uploadTime?.getTime() ?? NaN) && isBayar &&
+                                <p className='mt-2 text-emerald-400'>Terunggah pada {uploadTime?.toString().substring(0, uploadTime?.toString().indexOf('GMT') - 1)}</p>
+                            }
+                        </div>
+                    </div>
+                    <p className='text-gray-500 px-1 pt-4'>
+                        *Peserta diperbolehkan mengumpulkan atau mengganti proposal hingga batas waktu yang ditentukan, tetapi hanya submisi terakhir yang akan dinilai.
+                    </p>
+                </>
+            )}
         </div>
     )
 }

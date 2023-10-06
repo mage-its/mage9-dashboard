@@ -23,7 +23,7 @@ const SetSpamCard = (props: SetSpamCardProps) => {
     }
 
     return (
-        <button onClick={setIsSpam} className={`${!spam ? 'bg-red-400/80 text-red-900' : 'bg-emerald-400/80 text-emerald-900'} py-2 px-4 rounded-full h-min font-bold`}>
+        <button onClick={setIsSpam} className={`w-full ${!spam ? 'bg-red-400/80 text-red-900' : 'bg-emerald-400/80 text-emerald-900'} py-2 px-4 rounded-full h-min font-bold`}>
             {loading ? (
                 '...'
             ) : (

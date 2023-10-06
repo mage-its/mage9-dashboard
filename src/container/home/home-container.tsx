@@ -70,7 +70,10 @@ const HomeContainer = () => {
                 }
                 <section className="flex flex-col items-center justify-center gap-10 py-10">
                     <div className='w-3/4'>
-                        <DeadlineReminderCard label='Penutupan Pendaftaran DevCom' date='2023-10-03' />
+                        <DeadlineReminderCard label='Deadline Pengumpulan Link Devcom' date='2023-11-03' dateString='3 November 2023' />
+                    </div>
+                    <div className='w-3/4'>
+                        <DeadlineReminderCard label='Penutupan Pendaftaran Robotic Competition' date='2023-11-03' dateString='3 November 2023' />
                     </div>
                     <div className=" min-h-[15rem] w-3/4 rounded-lg bg-custom-blue/50 overflow-hidden">
                         <div className="bg-custom-purple p-2.5">

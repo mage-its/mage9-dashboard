@@ -12,7 +12,7 @@ import NominalBayarCard from '@/components/card/nominal-bayar-card'
 import Tahap1Card from '@/components/card/tahap-1-card'
 import { StatusBerkas } from '@/utils/enum'
 
-const DashboardPeserta = (props: COMPETITION_MODEL) => {
+const DashboardPesertaRobotic = (props: COMPETITION_MODEL) => {
     const [loading, setLoading] = useState(true)
     const [teamDoc, setTeamDoc] = useState<QueryDocumentSnapshot<DocumentData, DocumentData>>()
 
@@ -52,13 +52,11 @@ const DashboardPeserta = (props: COMPETITION_MODEL) => {
                     <DownloadGuidebookButton link={props.guidebook} />
                 </div>
 
-                <DeadlineReminderCard label='Deadline Pengumpulan Link Devcom' date='2023-11-03' />
+                <DeadlineReminderCard label='Deadline Pengumpulan Berkas Pendaftaran' date='2023-11-03' dateString='3 November 2023' />
 
                 {(teamDoc!.data().pembayaranVerified == StatusBerkas.upload || teamDoc!.data().pembayaranVerified == StatusBerkas.denied) &&
                     <NominalBayarCard idCabang={props.idCabang} kategori={teamDoc!.data().kategori} teamId={teamDoc!.data().timId} />
                 }
-
-                <Tahap1Card idCabang={props.idCabang} teamId={teamDoc!.id} teamName={teamDoc!.data().namaTim} tahap={teamDoc!.data().tahap} isStop={teamDoc!.data().isStop} />
 
                 <DetailTim teamDoc={teamDoc!} idCabang={props.idCabang} />
             </section>
@@ -66,4 +64,4 @@ const DashboardPeserta = (props: COMPETITION_MODEL) => {
     )
 }
 
-export default DashboardPeserta
+export default DashboardPesertaRobotic

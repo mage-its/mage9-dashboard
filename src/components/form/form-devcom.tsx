@@ -201,14 +201,14 @@ export default function FormDevCom(props: COMPETITION_MODEL) {
                     <Input id="namaKetua" label="Nama Ketua *" />
                     <Input id="waKetua" label="No HP Ketua *" />
                     <Input id="lineKetua" label="ID Line Ketua *" />
-                    <Input id="namaAnggota1" label="Nama Anggota 1" />
-                    <Input id="namaAnggota2" label="Nama Anggota 2" />
                     {props.idCabang == COMPETITIONS[3].idCabang && (
                         <>
                             <Input id="namaPembimbing" label="Nama Pembimbing" />
                             <Input id="waPembimbing" label="No HP Pembimbing" />
                         </>
                     )}
+                    <Input id="namaAnggota1" label="Nama Anggota 1" />
+                    <Input id="namaAnggota2" label="Nama Anggota 2" />
                     <Input id="asalKota" label="Asal Kota *" />
                     <Input id="asalInstansi" label="Asal Instansi *" />
                     <div className="md:col-span-2 w-full">

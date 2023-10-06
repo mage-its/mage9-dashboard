@@ -6,10 +6,10 @@ import React from 'react'
 export default function Page() {
     return (
         <Main>
-            <section className="h-full w-full">
+            {/* <section className="h-full w-full">
                 <h1 className='h-full w-full flex justify-center items-center'>Coming Soon!</h1>
-            </section>
-            {/* <DaftarDevComContainer {...COMPETITIONS[3]} /> */}
+            </section> */}
+            <DaftarDevComContainer {...COMPETITIONS[3]} />
         </Main>
     )
 }
