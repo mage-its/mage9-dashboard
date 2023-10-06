@@ -23,7 +23,7 @@ const IoTTeamListContainer = (props: TeamListContainerProps) => {
     useEffect(() => {
         setLoading(true)
         const umum: QueryDocumentSnapshot<DocumentData, DocumentData>[] = []
-        const q = query(collection(db, props.compe.idCabang), where('isSpam', '==', false), where('timVerified', '==', true));
+        const q = query(collection(db, props.compe.idCabang), where('isSpam', '==', false), where('timVerified', '==', true), where('tahap', '==', 0));
         getDocs(q).then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 umum.push(doc)

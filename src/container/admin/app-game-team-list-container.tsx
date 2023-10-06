@@ -26,7 +26,7 @@ const AppGameTeamListContainer = (props: TeamListContainerProps) => {
         setLoading(true)
         const siswa: QueryDocumentSnapshot<DocumentData, DocumentData>[] = []
         const mahasiswa: QueryDocumentSnapshot<DocumentData, DocumentData>[] = []
-        const q = query(collection(db, props.compe.idCabang), where('isSpam', '==', false), where('timVerified', '==', true));
+        const q = query(collection(db, props.compe.idCabang), where('isSpam', '==', false), where('timVerified', '==', true), where('tahap', '==', 0));
         getDocs(q).then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 doc.data().kategori == 'Mahasiswa' ? mahasiswa.push(doc) : siswa.push(doc)

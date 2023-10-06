@@ -14,7 +14,7 @@ const TeamCountCard = (props: TeamCountCardProps) => {
     const [count, setCount] = useState(0)
 
     useEffect(() => {
-        const q = query(collection(db, props.idCabang), where('isSpam', '==', false), where('timVerified', '==', true));
+        const q = query(collection(db, props.idCabang), where('isSpam', '==', false), where('timVerified', '==', true), where('tahap', '==', 0));
         getDocs(q).then((querySnapshot) => {
             setCount(querySnapshot.docs.length)
             setLoading(false)
