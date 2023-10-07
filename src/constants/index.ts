@@ -81,7 +81,7 @@ export const COMPETITIONS: COMPETITION_MODEL[] = [
         label: 'Robotics',
         href: '/event/competition/robotic',
         idCabang: 'robotics',
-        guidebook: '#',
+        guidebook: 'https://drive.google.com/drive/folders/1jr9PMuPDvu8qFyIIGOhoDMoA5hZ4A9ll?usp=sharing',
         logo: '/assets/images/logo/robotic.svg',
     },
 ]
