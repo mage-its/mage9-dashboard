@@ -37,8 +37,8 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
-                const docRef = doc(db, 'users', user.uid);
-                const docSnap = await getDoc(docRef);
+                const docRef = doc(db, 'users', user.uid)
+                const docSnap = await getDoc(docRef)
 
                 if (docSnap.exists()) {
                     if (docSnap.data().admin) {
@@ -47,10 +47,10 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                     }
                 }
             }
-        });
+        })
 
-        return () => unsubscribe();
-    }, []);
+        return () => unsubscribe()
+    }, [])
 
     return (
         <div
@@ -81,7 +81,6 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
             </section>
             <section className="h-full w-full border-t-4 border-custom-blue pt-5 text-lg">
                 <ul className="h-full w-full cursor-pointer">
-
                     {/* Home */}
                     <li className=" w-full hover:bg-white/25">
                         <Link href="/" className="inline-flex  h-full w-full items-center gap-2.5 p-2.5">
@@ -164,7 +163,7 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                                                                 'hover:border-b-white',
                                                                 'border-b-2 border-b-transparent'
                                                             )}
-                                                            target='_blank'
+                                                            target="_blank"
                                                         >
                                                             <span>{item.label}</span>
                                                         </Link>
@@ -179,7 +178,7 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                     </li>
 
                     {/* Dashbaord */}
-                    {isAdmin &&
+                    {isAdmin && (
                         <li className=" flex w-full flex-col gap-2.5">
                             <div
                                 onClick={() => {
@@ -193,7 +192,7 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                                 </div>
                                 {/* <BsChevronDown className='rotate-0 mr-5' /> */}
                             </div>
-                            <ul className="flex flex-col gap-2.5 pl-12">
+                            {/* <ul className="flex flex-col gap-2.5 pl-12">
                                 {DASHBOARD_LINK.map((item, i) => {
                                     return (
                                         <li key={i}>
@@ -209,9 +208,9 @@ export default function Sidebar({ showNavbar, toggle, toggled }: SidebarProps) {
                                         </li>
                                     )
                                 })}
-                            </ul>
+                            </ul> */}
                         </li>
-                    }
+                    )}
                 </ul>
             </section>
             <section className="flex h-full w-full items-end">
